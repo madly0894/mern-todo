@@ -1,11 +1,11 @@
-import * as types from "../actions/types";
+import * as types from "../types";
 
 const initialState = {
     employees: [],
     employee: null
 };
 
-function reducer(state = initialState, action) {
+function reducers(state = initialState, action) {
     switch (action.type) {
         case types.GET_ALL_EMPLOYEES:
             return {
@@ -30,4 +30,4 @@ function reducer(state = initialState, action) {
     }
 }
 
-export default reducer;
+export default reducers;

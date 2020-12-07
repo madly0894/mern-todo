@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles, withStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -12,6 +12,8 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import {useDispatch} from "react-redux";
+import {get_allEmployees} from "../redux/actions/actions";
 
 function createData(name, calories, fat, carbs, protein, sa, sw) {
     return {name, calories, fat, carbs, protein, sa, sw};
@@ -100,6 +102,7 @@ export default function TableComponent() {
     const classes = useStyles();
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
+    const dispatch = useDispatch();
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     const handleSelectAllClick = (event) => {
@@ -110,6 +113,10 @@ export default function TableComponent() {
         }
         setSelected([]);
     };
+
+    useEffect(() => {
+        dispatch(get_allEmployees())
+    }, []);
 
     const handleClick = (event, name) => {
         const selectedIndex = selected.indexOf(name);
