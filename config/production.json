@@ -1,0 +1,5 @@
+{
+  "port": 5000,
+  "mongoUri": "mongodb+srv://vugar:1234vuqar@cluster0.66fz9.mongodb.net/list-of-employees?retryWrites=true&w=majority",
+  "baseUrl": "http://localhost:5000"
+}
