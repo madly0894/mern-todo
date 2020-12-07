@@ -9,11 +9,16 @@ function error() {
 // GET Employees
 
 export const get_allEmployees = () => async (dispatch) => {
-    try {
-        const res = await axios.get(baseUrl);
-        const data = await res.data;
+    dispatch(action_setLoading());
 
-        return dispatch(action_allEmployees(data));
+    try {
+        const res = await axios.get(baseUrl)
+            .then(res => res.data)
+            .catch(err => {
+                dispatch(action_setErrors(err));
+            });
+
+        return dispatch(action_allEmployees(res));
     } catch (e) {
         error()
     }
@@ -21,21 +26,26 @@ export const get_allEmployees = () => async (dispatch) => {
 
 export const action_allEmployees = (data) => ({
     type: types.GET_ALL_EMPLOYEES,
-    data
+    payload: data
 });
 
 // POST Add employee
 
 export const post_addEmployee = (title, body) => async (dispatch) => {
+    dispatch(action_setLoading());
+
     try {
         const res = await axios.post(`${baseUrl}/add`,
             {
                 title: title,
                 body: body
+            })
+            .then(res => res.data)
+            .catch(err => {
+                dispatch(action_setErrors(err));
             });
-        const data = await res.data;
 
-        return dispatch(action_createEmployee(data));
+        return dispatch(action_createEmployee(res));
     } catch (e) {
         error()
     }
@@ -43,21 +53,26 @@ export const post_addEmployee = (title, body) => async (dispatch) => {
 
 export const action_createEmployee = (data) => ({
     type: types.ADD_EMPLOYEE,
-    data
+    payload: data
 });
 
 // PUT Update employee
 
 export const put_updateEmployee = (title, body, id) => async (dispatch) => {
+    dispatch(action_setLoading());
+
     try {
         const res = await axios.put(`${baseUrl}/update/${id}`,
             {
                 title: title,
                 body: body
+            })
+            .then(res => res.data)
+            .catch(err => {
+                dispatch(action_setErrors(err));
             });
-        const data = await res.data;
 
-        return dispatch(action_updateEmployee(data));
+        return dispatch(action_updateEmployee(res));
     } catch (e) {
         error()
     }
@@ -65,14 +80,19 @@ export const put_updateEmployee = (title, body, id) => async (dispatch) => {
 
 export const action_updateEmployee = (data) => ({
     type: types.EDIT_EMPLOYEE,
-    data
+    payload: data
 });
 
 // DEL Delete employee
 
 export const del_deleteEmployee = (id) => async (dispatch) => {
+    dispatch(action_setLoading());
+
     try {
-        await axios.delete(`${baseUrl}/${id}`);
+        await axios.delete(`${baseUrl}/${id}`)
+            .catch(err => {
+                dispatch(action_setErrors(err));
+            });
 
         return dispatch(action_deleteEmployee(id));
     } catch (e) {
@@ -82,23 +102,41 @@ export const del_deleteEmployee = (id) => async (dispatch) => {
 
 export const action_deleteEmployee = (id) => ({
     type: types.DELETE_EMPLOYEE,
-    id
+    payload: id
 });
 
 // GET Employee by id
 
 export const get_employeeById = (id) => async (dispatch) => {
-    try {
-        const res = await axios.get(`${baseUrl}/${id}`);
-        const data = await res.data;
+    dispatch(action_setLoading());
 
-        return dispatch(action_employeeById(data));
+    try {
+        const res = await axios.get(`${baseUrl}/${id}`)
+            .then(res => res.data)
+            .catch(err => {
+                dispatch(action_setErrors(err));
+            });
+
+        return dispatch(action_employeeById(res));
     } catch (e) {
         error()
     }
 };
 
-export const action_employeeById = (onePost) => ({
+export const action_employeeById = (data) => ({
     type: types.GET_EMPLOYEE_BY_ID,
-    onePost
+    payload: data
+});
+
+// Set Loading
+
+export const action_setLoading = () => ({
+    type: types.GET_EMPLOYEE_BY_ID
+});
+
+// Set Errors
+
+export const action_setErrors = (errors) => ({
+    type: types.GET_EMPLOYEE_BY_ID,
+    payload: errors
 });

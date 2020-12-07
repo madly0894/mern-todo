@@ -3,3 +3,5 @@ export const DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
 export const EDIT_EMPLOYEE = "EDIT_EMPLOYEE";
 export const GET_ALL_EMPLOYEES = "GET_ALL_EMPLOYEES";
 export const GET_EMPLOYEE_BY_ID = "GET_EMPLOYEE_BY_ID";
+export const SET_LOADING = "SET_LOADING";
+export const SET_ERRORS = "SET_ERRORS";
