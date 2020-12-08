@@ -170,7 +170,7 @@ export default function TableComponent({ rows, headCells }) {
                                             <TableCell align="center">{row.businessLocation.title}</TableCell>
                                             <TableCell align="center">{row.workEmail}</TableCell>
                                             <TableCell align="center">{row.workPhone}</TableCell>
-                                            <TableCell align="center">{row.hourlyRate}</TableCell>
+                                            <TableCell align="center">{row.hourlyRate} / h</TableCell>
                                         </StyledTableRow>
                                     );
                                 })}

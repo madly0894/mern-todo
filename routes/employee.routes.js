@@ -82,10 +82,10 @@ router.put('/update/:id',
                 result.personalPhone = req.body.personalPhone;
                 result.workEmail = req.body.workEmail;
                 result.personalEmail = req.body.personalEmail;
+                result.hourlyRate = req.body.hourlyRate;
                 result.businessLocation = req.body.businessLocation;
                 result.company = req.body.company;
                 result.role = req.body.role;
-                result.hourlyRate = req.body.hourlyRate;
 
                 result.save()
                     .then((result) => {
