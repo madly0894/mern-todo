@@ -8,9 +8,6 @@ const app = express();
 
 app.use(express.json({ extended: true }));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 if (process.env.NODE_ENV === 'production') {
     app.use('/', express.static(path.join(__dirname, 'client', 'build')));
 
@@ -19,7 +16,8 @@ if (process.env.NODE_ENV === 'production') {
     })
 }
 
-// app.use('/api/employee', require('./routes/employee.routes'));
+app.use('/api/employee', require('./routes/employee.routes'));
+app.set('view engine', 'ejs');
 
 const PORT = config.get('port') || 5000;
 

@@ -29,20 +29,20 @@ function reducers(state = initialState, action) {
                 employees: [...state.employees, payload]
             };
         case types.DELETE_EMPLOYEE :
-            const employees = state.employees.filter((note) => note.id !== payload);
+            const employees = state.employees.filter((item) => item._id !== payload);
 
             return {
                 ...state,
                 employees
             };
         case types.EDIT_EMPLOYEE:
-            const edit = state.employees.map((note) => note.id === payload
-                ? {...payload} : note
+            const edit = state.employees.map((item) => item._id === payload._id
+                ? {...item, ...payload} : item
             );
 
             return {
                 ...state,
-                notes: edit
+                employees: edit
             };
         case types.SET_LOADING:
             return {

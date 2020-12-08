@@ -30,7 +30,6 @@ const initialState = {
     personalPhone: "",
     workEmail: "",
     workPhone: "",
-    _id: ""
 };
 
 const DialogComponent = (props) => {
@@ -39,8 +38,15 @@ const DialogComponent = (props) => {
     const {open, action, data} = useSelector(({ settings }) => settings.dialog);
     const [form, setForm] = useState(initialState);
 
-    const handleChangeForm = (e) => {
-        const {name, value} = e.target;
+    const handleChangeForm = (event, key) => {
+        if (key) {
+            return setForm(form => ({
+                ...form,
+                [key]: event
+            }))
+        }
+
+        const {name, value} = event.target;
 
         setForm(form => ({
             ...form,
@@ -74,11 +80,11 @@ const DialogComponent = (props) => {
 
     const handleAgreeDialog = () => {
         if (action === 'edit') {
-            handleEditEmployee();
+            handleEditEmployee(form);
         } else if (action === 'delete') {
-            handleDeleteEmployee();
+            handleDeleteEmployee(form._id);
         } else {
-            handleAddEmployee();
+            handleAddEmployee(form);
         }
         handleDisagreeDialog();
         setForm(initialState);
@@ -94,7 +100,7 @@ const DialogComponent = (props) => {
             onClose={handleDisagreeDialog}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
-            style={{ zIndex: 9999 }}
+            // style={{ zIndex: 9999 }}
         >
             <DialogTitle id="alert-dialog-title">
                 {action.toUpperCase()} Employee
@@ -116,7 +122,7 @@ const DialogComponent = (props) => {
                     onClick={handleAgreeDialog}
                     variant="contained"
                     color="primary"
-                    disabled={action === 'delete' ? false : (_.isEqual(data, form) || !_.isEmpty(form))}
+                    disabled={action === 'delete' ? false : (_.isEqual(data, form))}
                 >
                     {action}
                 </Button>

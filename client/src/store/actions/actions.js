@@ -30,16 +30,12 @@ export const action_allEmployees = (data) => ({
 
 // POST Add employee
 
-export const addEmployee = (title, body) => async (dispatch) => {
+export const addEmployee = (form) => async (dispatch) => {
     dispatch(action_setLoading());
 
     try {
-        const res = await instance.post('/add',
-            {
-                title: title,
-                body: body
-            })
-            .then(res => res)
+        const res = await instance.post('/add', form)
+            .then(res => res.data.data)
             .catch(err => {
                 dispatch(action_setErrors(err));
             });
@@ -57,16 +53,12 @@ export const action_createEmployee = (data) => ({
 
 // PUT Update employee
 
-export const updateEmployee = (title, body, id) => async (dispatch) => {
+export const updateEmployee = (form) => async (dispatch) => {
     dispatch(action_setLoading());
 
     try {
-        const res = await instance.put(`/update/${id}`,
-            {
-                title: title,
-                body: body
-            })
-            .then(res => res)
+        const res = await instance.put(`/update/${form._id}`, form)
+            .then(res => res.data.data)
             .catch(err => {
                 dispatch(action_setErrors(err));
             });

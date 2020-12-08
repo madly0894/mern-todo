@@ -7,6 +7,7 @@ import Divider from "@material-ui/core/Divider";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import Autocomplete from "@material-ui/lab/Autocomplete";
 import db from "../store/db";
 
 const useStyles = makeStyles(theme => ({
@@ -39,8 +40,19 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.down('sm')]: {
             width: 229
         }
+    },
+    placeholder: {
+        color: "#aaa"
     }
 }));
+
+
+const Placeholder = ({ children }) => {
+    const classes = useStyles();
+
+    return <div className={classes.placeholder}>{children}</div>;
+};
+
 
 const FormComponent = ({form, handleChangeForm}) => {
     const classes = useStyles();
@@ -180,26 +192,18 @@ const FormComponent = ({form, handleChangeForm}) => {
                         <Typography>Business Location:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
-                        <FormControl fullWidth className={classes.select} variant="outlined" size="small">
-                            <Select
-                                id="demo-controlled-open-select"
-                                value={form.businessLocation?.title}
-                                onChange={handleChangeForm}
-                                name="businessLocation"
-                                MenuProps={{
-                                    style: {
-                                        zIndex: 9999
-                                    },
-                                }}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                {businessLocations?.map(item => (
-                                    <MenuItem key={item._id} value={item.title}>{item.title}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
+                        <Autocomplete
+                            size="small"
+                            className={classes.select}
+                            id="id-business-location"
+                            options={businessLocations}
+                            value={form.businessLocation}
+                            onChange={(option, value) => {
+                                handleChangeForm(value, 'businessLocation');
+                            }}
+                            getOptionLabel={(option) => option.title}
+                            renderInput={(params) => <TextField {...params} variant="outlined" />}
+                        />
                     </Grid>
                 </Grid>
                 <Grid container item justify="center" alignItems="center" className={classes.item}>
@@ -207,26 +211,18 @@ const FormComponent = ({form, handleChangeForm}) => {
                         <Typography>Company:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
-                        <FormControl fullWidth className={classes.select} variant="outlined" size="small">
-                            <Select
-                                id="demo-controlled-open-select"
-                                value={form.company?.title || ''}
-                                onChange={handleChangeForm}
-                                name="company"
-                                MenuProps={{
-                                    style: {
-                                        zIndex: 9999
-                                    },
-                                }}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                {companies?.map(item => (
-                                    <MenuItem key={item._id} value={item}>{item.title}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
+                        <Autocomplete
+                            size="small"
+                            className={classes.select}
+                            id="id-company"
+                            options={companies}
+                            value={form.company}
+                            onChange={(option, value) => {
+                                handleChangeForm(value, 'company');
+                            }}
+                            getOptionLabel={(option) => option.title}
+                            renderInput={(params) => <TextField {...params} variant="outlined" />}
+                        />
                     </Grid>
                 </Grid>
                 <Grid container item justify="center" alignItems="center" className={classes.item}>
@@ -234,26 +230,18 @@ const FormComponent = ({form, handleChangeForm}) => {
                         <Typography>Role:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
-                        <FormControl fullWidth className={classes.select} variant="outlined" size="small">
-                            <Select
-                                id="demo-controlled-open-select"
-                                value={form.role?.title || ''}
-                                onChange={handleChangeForm}
-                                name="role"
-                                MenuProps={{
-                                    style: {
-                                        zIndex: 9999
-                                    },
-                                }}
-                            >
-                                <MenuItem value="">
-                                    <em>None</em>
-                                </MenuItem>
-                                {roles?.map(item => (
-                                    <MenuItem key={item._id} value={item}>{item.title}</MenuItem>
-                                ))}
-                            </Select>
-                        </FormControl>
+                        <Autocomplete
+                            size="small"
+                            className={classes.select}
+                            id="id-role"
+                            options={roles}
+                            value={form.role}
+                            onChange={(option, value) => {
+                                handleChangeForm(value, 'role');
+                            }}
+                            getOptionLabel={(option) => option.title}
+                            renderInput={(params) => <TextField {...params} variant="outlined" />}
+                        />
                     </Grid>
                 </Grid>
                 <Grid container item justify="center" alignItems="center" className={classes.item}>

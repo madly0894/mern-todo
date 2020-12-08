@@ -4,12 +4,12 @@
   "description": "mern-todo",
   "main": "app.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node app.js",
+    "start": "node app.js",
     "server": "nodemon app.js",
     "client": "npm run start --prefix client",
     "client:install": "npm install --prefix client",
     "client:build": "npm run build --prefix client",
-    "dev": "cross-env NODE_ENV=development concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\""
   },
   "keywords": [
     "mern",
@@ -20,10 +20,12 @@
   "dependencies": {
     "body-parser": "^1.19.0",
     "config": "^3.3.3",
+    "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "express": "^4.17.1",
     "express-validator": "^6.7.0",
-    "mongoose": "^5.11.4"
+    "mongoose": "^5.11.4",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",
