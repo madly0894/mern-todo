@@ -10,7 +10,7 @@ router.get('/', async (req, res) => {
                 res.status(200).json(result)
             })
             .catch(errors => {
-                res.status(400).json({ message: "Bad Request", errors: errors.array() })
+                res.status(400).json({ message: "Bad Request", errors })
             });
 
     } catch (e) {
@@ -27,7 +27,7 @@ router.get('/:id', async (req, res) => {
                 res.status(200).json(result);
             })
             .catch(errors => {
-                res.status(400).json({ message: "Bad Request", errors: errors.array() })
+                res.status(400).json({ message: "Bad Request", errors })
             });
 
     } catch (e) {
@@ -63,7 +63,7 @@ router.post('/add',
                     res.status(201).json({ message: 'Employee created!', data: result })
                 })
                 .catch(errors => {
-                    res.status(400).json({ message: "Bad Request", errors: errors.array() })
+                    res.status(400).json({ message: "Bad Request", errors })
                 });
 
         } catch (e) {
@@ -99,11 +99,10 @@ router.put('/update/:id',
 
                 result.save()
                     .then((result) => {
-                        console.log(result)
                         res.status(200).json({ message: 'Employee updated!', data: result })
                     })
                     .catch(errors => {
-                        res.status(400).json({ message: "Bad Request", errors: errors.array() })
+                        res.status(400).json({ message: "Bad Request", errors })
                     });
             })
 
@@ -119,7 +118,7 @@ router.delete('/:id', async (req, res) => {
                 res.status(200).json({ message: 'Employee deleted!' });
             })
             .catch(errors => {
-                res.status(400).json({ message: "Bad Request", errors: errors.array() });
+                res.status(400).json({ message: "Bad Request", errors });
             });
 
     } catch (e) {
@@ -133,7 +132,7 @@ router.delete('/all', async (req, res) => {
                 res.status(200).json({ message: 'All Employees deleted!' });
             })
             .catch(errors => {
-                res.status(400).json({ message: "Bad Request", errors: errors.array() });
+                res.status(400).json({ message: "Bad Request", errors });
             });
 
     } catch (e) {

@@ -98,10 +98,10 @@ const DialogComponent = (props) => {
             handleAddEmployee(form);
         }
 
-        if (!errors.length) {
-            handleDisagreeDialog();
-            setForm(initialState);
-        }
+        // if (!errors.length) {
+        //     handleDisagreeDialog();
+        //     setForm(initialState);
+        // }
     };
 
     return (
