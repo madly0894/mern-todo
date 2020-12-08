@@ -35,6 +35,13 @@ function reducers(state = initialState, action) {
                 ...state,
                 employees
             };
+        case types.DELETE_ALL_EMPLOYEES:
+            const deleteAll = state.employees.filter((item) => !item);
+
+            return {
+                ...state,
+                employees: deleteAll
+            };
         case types.EDIT_EMPLOYEE:
             const edit = state.employees.map((item) => item._id === payload._id
                 ? {...item, ...payload} : item

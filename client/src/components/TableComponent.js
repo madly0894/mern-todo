@@ -1,18 +1,18 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {makeStyles, withStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
-import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-import Grid from "@material-ui/core/Grid";
-import Button from "@material-ui/core/Button";
 import ActionComponent from "./ActionComponent";
+import {useSelector} from "react-redux";
+import TablePagination from "@material-ui/core/TablePagination";
+import Grid from "@material-ui/core/Grid";
 
 function EnhancedTableHead({ headCells }) {
     return (
@@ -46,17 +46,18 @@ const StyledTableRow = withStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        width: '100%'
+        width: '100%',
+        maxWidth: 1280,
     },
     grid: {
         flexGrow: 1,
     },
     paper: {
         width: '100%',
-        marginBottom: theme.spacing(2),
     },
     table: {
-        minWidth: 750,
+        minWidth: 992,
+        border: '1px solid rgba(224, 224, 224, 1)',
     },
     visuallyHidden: {
         border: 0,
@@ -71,15 +72,21 @@ const useStyles = makeStyles((theme) => ({
     },
     button: {
         width: 200
+    },
+    footer: {
+        [theme.breakpoints.down('sm')]: {
+            flexDirection: 'column'
+        }
     }
 }));
 
 export default function TableComponent({ rows, headCells }) {
     const classes = useStyles();
     const [selected, setSelected] = React.useState([]);
-    const [selectedRow, setSelectedRow] = React.useState([]);
+    const [selectedRowData, setSelectedRowData] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const {loading} = useSelector(({ reducers }) => reducers);
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
@@ -90,12 +97,14 @@ export default function TableComponent({ rows, headCells }) {
         setSelected([]);
     };
 
-    const handleClick = (row, id) => {
-        const selectedIndex = selected.indexOf(id);
+    const handleClick = (row) => {
+        const {_id} = row;
+
+        const selectedIndex = selected.indexOf(_id);
         let newSelected = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, id);
+            newSelected = newSelected.concat(selected, _id);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -107,7 +116,7 @@ export default function TableComponent({ rows, headCells }) {
             );
         }
 
-        setSelectedRow(row);
+        setSelectedRowData(row);
         setSelected(newSelected);
     };
 
@@ -150,7 +159,7 @@ export default function TableComponent({ rows, headCells }) {
                                     return (
                                         <StyledTableRow
                                             hover
-                                            onClick={(event) => handleClick(row, row._id)}
+                                            onClick={(event) => handleClick(row)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
@@ -175,23 +184,29 @@ export default function TableComponent({ rows, headCells }) {
                                     );
                                 })}
                             {emptyRows > 0 && (
-                                <TableRow style={{height: 53 * emptyRows}}>
-                                    <TableCell colSpan={8}/>
+                                <TableRow style={{height: 53 * emptyRows, }}>
+                                    <TableCell colSpan={8} style={{ border: 'none' }}/>
                                 </TableRow>
                             )}
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <ActionComponent selectedRow={selectedRow} selected={selected} />
-                {/*<TablePagination*/}
-                {/*    rowsPerPageOptions={[5, 10, 25]}*/}
-                {/*    component="div"*/}
-                {/*    count={rows.length}*/}
-                {/*    rowsPerPage={rowsPerPage}*/}
-                {/*    page={page}*/}
-                {/*    onChangePage={handleChangePage}*/}
-                {/*    onChangeRowsPerPage={handleChangeRowsPerPage}*/}
-                {/*/>*/}
+                <Grid container alignItems="center" className={classes.footer}>
+                    <Grid item xs={12} sm={12} md={8}>
+                        <ActionComponent selectedRowData={selectedRowData} selectedRowIds={selected} />
+                    </Grid>
+                    <Grid item xs={12} sm={12} md={4}>
+                        <TablePagination
+                            rowsPerPageOptions={[5, 10, 25]}
+                            component="div"
+                            count={rows.length}
+                            rowsPerPage={rowsPerPage}
+                            page={page}
+                            onChangePage={handleChangePage}
+                            onChangeRowsPerPage={handleChangeRowsPerPage}
+                        />
+                    </Grid>
+                </Grid>
             </Paper>
         </div>
     );

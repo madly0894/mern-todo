@@ -36,7 +36,17 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/add',
-    [],
+    [
+        // check('firstName', '').isLength({ min: 2 }),
+        // check('lastName', '').isLength({ min: 2 }),
+        // check('workEmail', 'Incorrect email').isEmail(),
+        // check('personalEmail', 'Incorrect email').isEmail(),
+        // check('firstName', '').isLength({ min: 2 }),
+        // check('firstName', '').isLength({ min: 2 }),
+        // check('firstName', '').isLength({ min: 2 }),
+        // check('firstName', '').isLength({ min: 2 }),
+        // check('firstName', '').isLength({ min: 2 }),
+    ],
     async (req, res) => {
         try {
             const errors = validationResult(req);
@@ -44,7 +54,7 @@ router.post('/add',
             if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
-                    message: 'Invalid data'
+                    message: 'Bad Request'
                 })
             }
 
@@ -69,7 +79,7 @@ router.put('/update/:id',
         if (!errors.isEmpty()) {
             return res.status(400).json({
                 errors: errors.array(),
-                message: 'Invalid data'
+                message: 'Bad Request'
             })
         }
 
@@ -107,6 +117,20 @@ router.delete('/:id', async (req, res) => {
         await Employee.findByIdAndDelete(req.params.id)
             .then(() => {
                 res.status(200).json({ message: 'Employee deleted!' });
+            })
+            .catch(err => {
+                res.status(400).json({ message: "Bad Request", err });
+            });
+
+    } catch (e) {
+        res.status(500).json({ message: "'Something wen't wrong, please try again" })
+    }
+});
+
+router.delete('/all', async (req, res) => {
+    try {
+        await Employee.findAndModify().then(() => {
+                res.status(200).json({ message: 'All Employees deleted!' });
             })
             .catch(err => {
                 res.status(400).json({ message: "Bad Request", err });

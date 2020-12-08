@@ -2,11 +2,14 @@ const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
 const path = require('path');
-const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
 
 app.use(express.json({ extended: true }));
+app.disable('etag');
+app.use(cors());
+app.use('/api/employee', require('./routes/employee.routes'));
 
 if (process.env.NODE_ENV === 'production') {
     app.use('/', express.static(path.join(__dirname, 'client', 'build')));
@@ -16,9 +19,6 @@ if (process.env.NODE_ENV === 'production') {
     })
 }
 
-app.use('/api/employee', require('./routes/employee.routes'));
-app.set('view engine', 'ejs');
-
 const PORT = config.get('port') || 5000;
 
 async function start() {
@@ -27,6 +27,15 @@ async function start() {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true
+        }, (err, db) => {
+            // console.log(db.getCollectionNames())
+            // if (err) throw new Error(err);
+            // db.collection('employees').deleteMany(// MongoDB delete method 'deleteMany'
+            //     { farewell: "okay" }, // Delete ALL documents with the property 'farewell: okay'
+            //     function (err, result) {
+            //         if (err) throw new Error(err);
+            //         db.close(); // Don't forget to close the connection when you are done
+            //     });
         });
         app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
     } catch (e) {

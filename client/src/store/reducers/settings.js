@@ -4,7 +4,8 @@ const initialState = {
     dialog: {
         action: '',
         open: false,
-        data: null
+        data: null,
+        selectedRowIds: []
     }
 };
 
@@ -16,7 +17,8 @@ export default function settings(state = initialState, action) {
                 dialog: {
                     open: !state.dialog.open,
                     action: action.payload.key,
-                    data: action.payload.data
+                    data: action.payload.data,
+                    selectedRowIds: action.payload.selectedRowIds
                 }
             };
         default:

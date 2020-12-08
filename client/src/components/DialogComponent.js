@@ -7,7 +7,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import {toggleDialog} from "../store/actions/settings";
-import {addEmployee, deleteEmployee, updateEmployee} from "../store/actions/actions";
+import {addEmployee, deleteAllEmployees, deleteEmployee, updateEmployee} from "../store/actions/actions";
 import FormComponent from "./FormComponent";
 import {makeStyles} from "@material-ui/core/styles";
 import _ from 'lodash';
@@ -35,7 +35,7 @@ const initialState = {
 const DialogComponent = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const {open, action, data} = useSelector(({ settings }) => settings.dialog);
+    const {open, action, data, selectedRowIds} = useSelector(({ settings }) => settings.dialog);
     const [form, setForm] = useState(initialState);
 
     const handleChangeForm = (event, key) => {
@@ -75,22 +75,24 @@ const DialogComponent = (props) => {
     };
 
     const handleDisagreeDialog = () => {
-        dispatch(toggleDialog({data: form, key: action}))
+        dispatch(toggleDialog({data: form, key: action, selectedRowIds: []}))
     };
 
     const handleAgreeDialog = () => {
         if (action === 'edit') {
             handleEditEmployee(form);
         } else if (action === 'delete') {
-            handleDeleteEmployee(form._id);
+            if (selectedRowIds.length > 1) {
+                dispatch(deleteAllEmployees())
+            } else {
+                handleDeleteEmployee(form._id);
+            }
         } else {
             handleAddEmployee(form);
         }
         handleDisagreeDialog();
         setForm(initialState);
     };
-
-    console.log(form)
 
     return (
         <Dialog
@@ -108,7 +110,9 @@ const DialogComponent = (props) => {
             <DialogContent>
                 {action === 'delete'
                     ? (
-                        <DialogContentText id="alert-dialog-description">Are you sure you want to delete this note {data._id}?</DialogContentText>
+                        <DialogContentText id="alert-dialog-description">
+                            Are you sure you want to delete { selectedRowIds.length > 1 ? 'all employees' : `this employee ${data._id}`}?
+                        </DialogContentText>
                     )
                     : (
                         <FormComponent form={form} handleChangeForm={handleChangeForm}/>

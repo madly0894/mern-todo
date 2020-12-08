@@ -119,6 +119,27 @@ export const action_employeeById = (data) => ({
     payload: data
 });
 
+// Delete All Employees
+
+export const deleteAllEmployees = () => async (dispatch) => {
+    dispatch(action_setLoading());
+
+    try {
+        await instance.delete(`/all`)
+            .catch(err => {
+                dispatch(action_setErrors(err));
+            });
+
+        return dispatch(action_deleteAllEmployees());
+    } catch (e) {
+        error()
+    }
+};
+
+export const action_deleteAllEmployees = () => ({
+    type: types.DELETE_ALL_EMPLOYEES
+});
+
 // Set Loading
 
 export const action_setLoading = () => ({
