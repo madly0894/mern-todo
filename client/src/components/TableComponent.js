@@ -12,6 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
+import ActionComponent from "./ActionComponent";
 
 function EnhancedTableHead({ headCells }) {
     return (
@@ -76,6 +77,7 @@ const useStyles = makeStyles((theme) => ({
 export default function TableComponent({ rows, headCells }) {
     const classes = useStyles();
     const [selected, setSelected] = React.useState([]);
+    const [selectedRow, setSelectedRow] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
@@ -88,12 +90,12 @@ export default function TableComponent({ rows, headCells }) {
         setSelected([]);
     };
 
-    const handleClick = (event, name) => {
-        const selectedIndex = selected.indexOf(name);
+    const handleClick = (row, id) => {
+        const selectedIndex = selected.indexOf(id);
         let newSelected = [];
 
         if (selectedIndex === -1) {
-            newSelected = newSelected.concat(selected, name);
+            newSelected = newSelected.concat(selected, id);
         } else if (selectedIndex === 0) {
             newSelected = newSelected.concat(selected.slice(1));
         } else if (selectedIndex === selected.length - 1) {
@@ -105,6 +107,7 @@ export default function TableComponent({ rows, headCells }) {
             );
         }
 
+        setSelectedRow(row);
         setSelected(newSelected);
     };
 
@@ -147,7 +150,7 @@ export default function TableComponent({ rows, headCells }) {
                                     return (
                                         <StyledTableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row._id)}
+                                            onClick={(event) => handleClick(row, row._id)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
@@ -156,6 +159,7 @@ export default function TableComponent({ rows, headCells }) {
                                         >
                                             <TableCell padding="checkbox">
                                                 <Checkbox
+                                                    color="primary"
                                                     checked={isItemSelected}
                                                     inputProps={{'aria-labelledby': labelId}}
                                                 />
@@ -178,36 +182,16 @@ export default function TableComponent({ rows, headCells }) {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {/*<div className={classes.grid}>*/}
-                {/*    <Grid container>*/}
-                {/*        <Grid item xs={2}>*/}
-                {/*            <Button variant="contained" color="primary" className={classes.button}>*/}
-                {/*                Add employee*/}
-                {/*            </Button>*/}
-                {/*        </Grid>*/}
-                {/*        <Grid item xs={2}>*/}
-                {/*            <Button variant="outlined" className={classes.button}*/}
-                {/*                    disabled={selected.length > 1}>*/}
-                {/*                Edit*/}
-                {/*            </Button>*/}
-                {/*        </Grid>*/}
-                {/*        <Grid item xs={2}>*/}
-                {/*            <Button variant="outlined" color="secondary" className={classes.button}*/}
-                {/*                    disabled={!selected.length}>*/}
-                {/*                Delete*/}
-                {/*            </Button>*/}
-                {/*        </Grid>*/}
-                {/*    </Grid>*/}
-                {/*</div>*/}
-                <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    component="div"
-                    count={rows.length}
-                    rowsPerPage={rowsPerPage}
-                    page={page}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                />
+                <ActionComponent selectedRow={selectedRow} selected={selected} />
+                {/*<TablePagination*/}
+                {/*    rowsPerPageOptions={[5, 10, 25]}*/}
+                {/*    component="div"*/}
+                {/*    count={rows.length}*/}
+                {/*    rowsPerPage={rowsPerPage}*/}
+                {/*    page={page}*/}
+                {/*    onChangePage={handleChangePage}*/}
+                {/*    onChangeRowsPerPage={handleChangeRowsPerPage}*/}
+                {/*/>*/}
             </Paper>
         </div>
     );

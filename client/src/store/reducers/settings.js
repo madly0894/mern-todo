@@ -3,7 +3,7 @@ import * as types from "../types";
 const initialState = {
     dialog: {
         action: '',
-        open: true,
+        open: false,
         data: null
     }
 };

@@ -6,11 +6,11 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
-import {toggleDialog} from "../redux/actions/settings";
-import {addEmployee, deleteEmployee, updateEmployee} from "../redux/actions/actions";
+import {toggleDialog} from "../store/actions/settings";
+import {addEmployee, deleteEmployee, updateEmployee} from "../store/actions/actions";
 import FormComponent from "./FormComponent";
 import {makeStyles} from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
+import _ from 'lodash';
 
 const useStyles = makeStyles(theme => ({
     dialogAction: {
@@ -19,8 +19,18 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const initialState = {
-    title: '',
-    body: ''
+    businessLocation: null,
+    company: null,
+    role: null,
+    firstName: "",
+    hourlyRate: "",
+    lastName: "",
+    login: "",
+    personalEmail: "",
+    personalPhone: "",
+    workEmail: "",
+    workPhone: "",
+    _id: ""
 };
 
 const DialogComponent = (props) => {
@@ -55,7 +65,7 @@ const DialogComponent = (props) => {
     };
 
     const handleDeleteEmployee = () => {
-        dispatch(deleteEmployee(form.id));
+        dispatch(deleteEmployee(form._id));
     };
 
     const handleDisagreeDialog = () => {
@@ -74,6 +84,8 @@ const DialogComponent = (props) => {
         setForm(initialState);
     };
 
+    console.log(form)
+
     return (
         <Dialog
             fullWidth
@@ -90,7 +102,7 @@ const DialogComponent = (props) => {
             <DialogContent>
                 {action === 'delete'
                     ? (
-                        <DialogContentText id="alert-dialog-description">Are you sure you want to delete this note {data.id}?</DialogContentText>
+                        <DialogContentText id="alert-dialog-description">Are you sure you want to delete this note {data._id}?</DialogContentText>
                     )
                     : (
                         <FormComponent form={form} handleChangeForm={handleChangeForm}/>
@@ -104,6 +116,7 @@ const DialogComponent = (props) => {
                     onClick={handleAgreeDialog}
                     variant="contained"
                     color="primary"
+                    disabled={action === 'delete' ? false : (_.isEqual(data, form) || !_.isEmpty(form))}
                 >
                     {action}
                 </Button>

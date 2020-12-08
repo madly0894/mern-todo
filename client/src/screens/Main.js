@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import TableComponent from "../components/TableComponent";
-import {getAllEmployees} from "../redux/actions/actions";
+import {getAllEmployees} from "../store/actions/actions";
 import {useDispatch, useSelector} from "react-redux";
 import DialogComponent from "../components/DialogComponent";
 

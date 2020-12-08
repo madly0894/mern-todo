@@ -18,3 +18,7 @@ code {
   justify-content: center;
   height: 100vh;
 }
+
+.MuiTableRow-root.Mui-selected:hover {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}

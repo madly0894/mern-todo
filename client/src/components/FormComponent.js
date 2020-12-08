@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import TextField from "@material-ui/core/TextField";
 import {makeStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
@@ -7,6 +7,7 @@ import Divider from "@material-ui/core/Divider";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import MenuItem from "@material-ui/core/MenuItem";
+import db from "../store/db";
 
 const useStyles = makeStyles(theme => ({
     typography: {
@@ -43,6 +44,8 @@ const useStyles = makeStyles(theme => ({
 
 const FormComponent = ({form, handleChangeForm}) => {
     const classes = useStyles();
+
+    const {businessLocations, companies, roles} = db;
 
     return (
         <form noValidate autoComplete="off">
@@ -114,7 +117,6 @@ const FormComponent = ({form, handleChangeForm}) => {
                             variant="outlined"
                             placeholder="Work Phone"
                             size="small"
-                            autoFocus
                             name="workPhone"
                             onChange={handleChangeForm}
                             value={form.workPhone}
@@ -178,11 +180,12 @@ const FormComponent = ({form, handleChangeForm}) => {
                         <Typography>Business Location:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
-                        <FormControl fullWidth className={classes.select} variant="outlined" size="small" placeholder="Business Location">
+                        <FormControl fullWidth className={classes.select} variant="outlined" size="small">
                             <Select
                                 id="demo-controlled-open-select"
                                 value={form.businessLocation?.title}
                                 onChange={handleChangeForm}
+                                name="businessLocation"
                                 MenuProps={{
                                     style: {
                                         zIndex: 9999
@@ -192,9 +195,9 @@ const FormComponent = ({form, handleChangeForm}) => {
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                {businessLocations?.map(item => (
+                                    <MenuItem key={item._id} value={item.title}>{item.title}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Grid>
@@ -204,11 +207,12 @@ const FormComponent = ({form, handleChangeForm}) => {
                         <Typography>Company:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
-                        <FormControl fullWidth className={classes.select} variant="outlined" size="small" placeholder="Company">
+                        <FormControl fullWidth className={classes.select} variant="outlined" size="small">
                             <Select
                                 id="demo-controlled-open-select"
-                                value={form.company?.title}
+                                value={form.company?.title || ''}
                                 onChange={handleChangeForm}
+                                name="company"
                                 MenuProps={{
                                     style: {
                                         zIndex: 9999
@@ -218,9 +222,9 @@ const FormComponent = ({form, handleChangeForm}) => {
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                {companies?.map(item => (
+                                    <MenuItem key={item._id} value={item}>{item.title}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Grid>
@@ -230,11 +234,12 @@ const FormComponent = ({form, handleChangeForm}) => {
                         <Typography>Role:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
-                        <FormControl fullWidth className={classes.select} variant="outlined" size="small" placeholder="Role">
+                        <FormControl fullWidth className={classes.select} variant="outlined" size="small">
                             <Select
                                 id="demo-controlled-open-select"
-                                value={form.role?.title}
+                                value={form.role?.title || ''}
                                 onChange={handleChangeForm}
+                                name="role"
                                 MenuProps={{
                                     style: {
                                         zIndex: 9999
@@ -244,9 +249,9 @@ const FormComponent = ({form, handleChangeForm}) => {
                                 <MenuItem value="">
                                     <em>None</em>
                                 </MenuItem>
-                                <MenuItem value={10}>Ten</MenuItem>
-                                <MenuItem value={20}>Twenty</MenuItem>
-                                <MenuItem value={30}>Thirty</MenuItem>
+                                {roles?.map(item => (
+                                    <MenuItem key={item._id} value={item}>{item.title}</MenuItem>
+                                ))}
                             </Select>
                         </FormControl>
                     </Grid>
