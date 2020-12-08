@@ -5,10 +5,13 @@ import App from './App';
 import {Provider as StoreProvider} from 'react-redux';
 import reportWebVitals from './reportWebVitals';
 import store from "./store";
+import SnackbarProvider from "./components/SnackbarProviderComponent";
 
 ReactDOM.render(
     <StoreProvider store={store}>
-        <App />
+        <SnackbarProvider>
+            <App />
+        </SnackbarProvider>
     </StoreProvider>,
   document.getElementById('root')
 );

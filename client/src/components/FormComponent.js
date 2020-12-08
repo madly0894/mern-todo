@@ -4,16 +4,13 @@ import {makeStyles} from "@material-ui/core/styles";
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import MenuItem from "@material-ui/core/MenuItem";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import db from "../store/db";
 
 const useStyles = makeStyles(theme => ({
     typography: {
         textTransform: 'uppercase',
-        fontWeight: 700
+        fontWeight: 900
     },
     divider: {
         margin: theme.spacing(1, 0),
@@ -37,22 +34,15 @@ const useStyles = makeStyles(theme => ({
         }
     },
     select: {
-        [theme.breakpoints.down('sm')]: {
-            width: 229
+        width: 229,
+    },
+    lastInput: {
+        width: 114.5,
+        [theme.breakpoints.down("sm")]: {
+            width: '100%'
         }
     },
-    placeholder: {
-        color: "#aaa"
-    }
 }));
-
-
-const Placeholder = ({ children }) => {
-    const classes = useStyles();
-
-    return <div className={classes.placeholder}>{children}</div>;
-};
-
 
 const FormComponent = ({form, handleChangeForm}) => {
     const classes = useStyles();
@@ -202,7 +192,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                                 handleChangeForm(value, 'businessLocation');
                             }}
                             getOptionLabel={(option) => option.title}
-                            renderInput={(params) => <TextField {...params} variant="outlined" />}
+                            renderInput={(params) => <TextField {...params} placeholder="Business Location" variant="outlined" />}
                         />
                     </Grid>
                 </Grid>
@@ -221,7 +211,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                                 handleChangeForm(value, 'company');
                             }}
                             getOptionLabel={(option) => option.title}
-                            renderInput={(params) => <TextField {...params} variant="outlined" />}
+                            renderInput={(params) => <TextField {...params} placeholder="Company" variant="outlined" />}
                         />
                     </Grid>
                 </Grid>
@@ -240,7 +230,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                                 handleChangeForm(value, 'role');
                             }}
                             getOptionLabel={(option) => option.title}
-                            renderInput={(params) => <TextField {...params} variant="outlined" />}
+                            renderInput={(params) => <TextField {...params} placeholder="Role" variant="outlined" />}
                         />
                     </Grid>
                 </Grid>
@@ -257,6 +247,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                             name="hourlyRate"
                             onChange={handleChangeForm}
                             value={form.hourlyRate}
+                            className={classes.lastInput}
                         />
                     </Grid>
                 </Grid>

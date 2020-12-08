@@ -3,6 +3,7 @@ import TableComponent from "../components/TableComponent";
 import {getAllEmployees} from "../store/actions/actions";
 import {useDispatch, useSelector} from "react-redux";
 import DialogComponent from "../components/DialogComponent";
+import NotificationComponent from "../components/NotificationComponent";
 
 const Main = () => {
     const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const Main = () => {
         <>
             <TableComponent rows={rows} headCells={headCells} />
             <DialogComponent />
+            <NotificationComponent />
         </>
     );
 };

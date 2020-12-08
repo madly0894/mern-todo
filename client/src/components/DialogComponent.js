@@ -11,10 +11,16 @@ import {addEmployee, deleteAllEmployees, deleteEmployee, updateEmployee} from ".
 import FormComponent from "./FormComponent";
 import {makeStyles} from "@material-ui/core/styles";
 import _ from 'lodash';
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles(theme => ({
     dialogAction: {
         padding: '8px 24px 16px'
+    },
+    typography: {
+        textTransform: 'capitalize',
+        fontWeight: 900,
+        fontSize: theme.spacing(3)
     }
 }));
 
@@ -36,6 +42,7 @@ const DialogComponent = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const {open, action, data, selectedRowIds} = useSelector(({ settings }) => settings.dialog);
+    const {errors, loading} = useSelector(({ reducers }) => reducers);
     const [form, setForm] = useState(initialState);
 
     const handleChangeForm = (event, key) => {
@@ -90,8 +97,11 @@ const DialogComponent = (props) => {
         } else {
             handleAddEmployee(form);
         }
-        handleDisagreeDialog();
-        setForm(initialState);
+
+        if (!errors.length) {
+            handleDisagreeDialog();
+            setForm(initialState);
+        }
     };
 
     return (
@@ -102,10 +112,11 @@ const DialogComponent = (props) => {
             onClose={handleDisagreeDialog}
             aria-labelledby="alert-dialog-title"
             aria-describedby="alert-dialog-description"
-            // style={{ zIndex: 9999 }}
         >
             <DialogTitle id="alert-dialog-title">
-                {action.toUpperCase()} Employee
+                <Typography className={classes.typography}>
+                    {action} {selectedRowIds.length > 1 ? 'Employees' : 'Employee'}
+                </Typography>
             </DialogTitle>
             <DialogContent>
                 {action === 'delete'

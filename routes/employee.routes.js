@@ -26,8 +26,8 @@ router.get('/:id', async (req, res) => {
             .then(result => {
                 res.status(200).json(result);
             })
-            .catch(err => {
-                res.status(400).json({ message: "Bad Request", err })
+            .catch(errors => {
+                res.status(400).json({ message: "Bad Request", errors: errors.array() })
             });
 
     } catch (e) {
@@ -62,8 +62,8 @@ router.post('/add',
                 .then(result => {
                     res.status(201).json({ message: 'Employee created!', data: result })
                 })
-                .catch(err => {
-                    res.status(400).json({ message: "Bad Request", err })
+                .catch(errors => {
+                    res.status(400).json({ message: "Bad Request", errors: errors.array() })
                 });
 
         } catch (e) {
@@ -102,8 +102,8 @@ router.put('/update/:id',
                         console.log(result)
                         res.status(200).json({ message: 'Employee updated!', data: result })
                     })
-                    .catch(err => {
-                        res.status(400).json({ message: "Bad Request", err })
+                    .catch(errors => {
+                        res.status(400).json({ message: "Bad Request", errors: errors.array() })
                     });
             })
 
@@ -118,8 +118,8 @@ router.delete('/:id', async (req, res) => {
             .then(() => {
                 res.status(200).json({ message: 'Employee deleted!' });
             })
-            .catch(err => {
-                res.status(400).json({ message: "Bad Request", err });
+            .catch(errors => {
+                res.status(400).json({ message: "Bad Request", errors: errors.array() });
             });
 
     } catch (e) {
@@ -132,8 +132,8 @@ router.delete('/all', async (req, res) => {
         await Employee.findAndModify().then(() => {
                 res.status(200).json({ message: 'All Employees deleted!' });
             })
-            .catch(err => {
-                res.status(400).json({ message: "Bad Request", err });
+            .catch(errors => {
+                res.status(400).json({ message: "Bad Request", errors: errors.array() });
             });
 
     } catch (e) {

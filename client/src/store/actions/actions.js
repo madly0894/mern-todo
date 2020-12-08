@@ -2,7 +2,7 @@ import * as types from "../types";
 import instance from '../../api/axios';
 
 function error() {
-    return new Error("Error from server");
+    return new Error('Error from server');
 }
 
 // GET Employees
@@ -11,13 +11,13 @@ export const getAllEmployees = () => async (dispatch) => {
     dispatch(action_setLoading());
 
     try {
-        const res = await instance.get()
-            .then(res => res.data)
+        await instance.get()
+            .then(res => {
+                dispatch(action_allEmployees(res.data));
+            })
             .catch(err => {
-                dispatch(action_setErrors(err));
+                dispatch(action_setErrors(err.data.errors.errors));
             });
-
-        return dispatch(action_allEmployees(res));
     } catch (e) {
         error()
     }
@@ -34,13 +34,14 @@ export const addEmployee = (form) => async (dispatch) => {
     dispatch(action_setLoading());
 
     try {
-        const res = await instance.post('/add', form)
-            .then(res => res.data.data)
+        await instance.post('/add', form)
+            .then(res => {
+                dispatch(action_createEmployee(res.data.data));
+            })
             .catch(err => {
-                dispatch(action_setErrors(err));
+                dispatch(action_setErrors(err.data.errors.errors));
             });
 
-        return dispatch(action_createEmployee(res));
     } catch (e) {
         error()
     }
@@ -57,13 +58,14 @@ export const updateEmployee = (form) => async (dispatch) => {
     dispatch(action_setLoading());
 
     try {
-        const res = await instance.put(`/update/${form._id}`, form)
-            .then(res => res.data.data)
+        await instance.put(`/update/${form._id}`, form)
+            .then(res => {
+                dispatch(action_updateEmployee(res.data.data));
+            })
             .catch(err => {
-                dispatch(action_setErrors(err));
+                dispatch(action_setErrors(err.data.errors.errors));
             });
 
-        return dispatch(action_updateEmployee(res));
     } catch (e) {
         error()
     }
@@ -81,11 +83,12 @@ export const deleteEmployee = (id) => async (dispatch) => {
 
     try {
         await instance.delete(`/${id}`)
+            .then(() => {
+                dispatch(action_deleteEmployee(id));
+            })
             .catch(err => {
-                dispatch(action_setErrors(err));
+                dispatch(action_setErrors(err.data.errors.errors));
             });
-
-        return dispatch(action_deleteEmployee(id));
     } catch (e) {
         error()
     }
@@ -102,13 +105,13 @@ export const getEmployeeById = (id) => async (dispatch) => {
     dispatch(action_setLoading());
 
     try {
-        const res = await instance.get(`/${id}`)
-            .then(res => res)
+        await instance.get(`/${id}`)
+            .then(res => {
+                dispatch(action_employeeById(res.data));
+            })
             .catch(err => {
-                dispatch(action_setErrors(err));
+                dispatch(action_setErrors(err.data.errors.errors));
             });
-
-        return dispatch(action_employeeById(res));
     } catch (e) {
         error()
     }
@@ -126,11 +129,12 @@ export const deleteAllEmployees = () => async (dispatch) => {
 
     try {
         await instance.delete(`/all`)
+            .then(() => {
+                dispatch(action_deleteAllEmployees());
+            })
             .catch(err => {
-                dispatch(action_setErrors(err));
+                dispatch(action_setErrors(err.data.errors.errors));
             });
-
-        return dispatch(action_deleteAllEmployees());
     } catch (e) {
         error()
     }
