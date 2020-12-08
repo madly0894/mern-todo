@@ -17,6 +17,12 @@ function reducers(state = initialState, action) {
                 employees: payload,
                 loading: false
             };
+        case types.GET_EMPLOYEE_BY_ID:
+            return {
+                ...state,
+                employee: payload,
+                loading: false
+            };
         case types.ADD_EMPLOYEE :
             return {
                 ...state,

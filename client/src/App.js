@@ -1,10 +1,10 @@
 import React from "react";
-import TableComponent from "./components/TableComponent";
+import Main from "./screens/Main";
 
 function App() {
   return (
     <div className="App">
-      <TableComponent />
+        <Main />
     </div>
   );
 }

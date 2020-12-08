@@ -1,6 +1,5 @@
 import * as types from "../types";
-import axios from "axios";
-const baseUrl = "/api/employee";
+import instance from '../../api/axios';
 
 function error() {
     return new Error("Error from server");
@@ -8,11 +7,11 @@ function error() {
 
 // GET Employees
 
-export const get_allEmployees = () => async (dispatch) => {
+export const getAllEmployees = () => async (dispatch) => {
     dispatch(action_setLoading());
 
     try {
-        const res = await axios.get(baseUrl)
+        const res = await instance.get()
             .then(res => res.data)
             .catch(err => {
                 dispatch(action_setErrors(err));
@@ -31,16 +30,16 @@ export const action_allEmployees = (data) => ({
 
 // POST Add employee
 
-export const post_addEmployee = (title, body) => async (dispatch) => {
+export const addEmployee = (title, body) => async (dispatch) => {
     dispatch(action_setLoading());
 
     try {
-        const res = await axios.post(`${baseUrl}/add`,
+        const res = await instance.post('/add',
             {
                 title: title,
                 body: body
             })
-            .then(res => res.data)
+            .then(res => res)
             .catch(err => {
                 dispatch(action_setErrors(err));
             });
@@ -58,16 +57,16 @@ export const action_createEmployee = (data) => ({
 
 // PUT Update employee
 
-export const put_updateEmployee = (title, body, id) => async (dispatch) => {
+export const updateEmployee = (title, body, id) => async (dispatch) => {
     dispatch(action_setLoading());
 
     try {
-        const res = await axios.put(`${baseUrl}/update/${id}`,
+        const res = await instance.put(`/update/${id}`,
             {
                 title: title,
                 body: body
             })
-            .then(res => res.data)
+            .then(res => res)
             .catch(err => {
                 dispatch(action_setErrors(err));
             });
@@ -85,11 +84,11 @@ export const action_updateEmployee = (data) => ({
 
 // DEL Delete employee
 
-export const del_deleteEmployee = (id) => async (dispatch) => {
+export const deleteEmployee = (id) => async (dispatch) => {
     dispatch(action_setLoading());
 
     try {
-        await axios.delete(`${baseUrl}/${id}`)
+        await instance.delete(`/${id}`)
             .catch(err => {
                 dispatch(action_setErrors(err));
             });
@@ -107,12 +106,12 @@ export const action_deleteEmployee = (id) => ({
 
 // GET Employee by id
 
-export const get_employeeById = (id) => async (dispatch) => {
+export const getEmployeeById = (id) => async (dispatch) => {
     dispatch(action_setLoading());
 
     try {
-        const res = await axios.get(`${baseUrl}/${id}`)
-            .then(res => res.data)
+        const res = await instance.get(`/${id}`)
+            .then(res => res)
             .catch(err => {
                 dispatch(action_setErrors(err));
             });
@@ -131,12 +130,12 @@ export const action_employeeById = (data) => ({
 // Set Loading
 
 export const action_setLoading = () => ({
-    type: types.GET_EMPLOYEE_BY_ID
+    type: types.SET_LOADING
 });
 
 // Set Errors
 
 export const action_setErrors = (errors) => ({
-    type: types.GET_EMPLOYEE_BY_ID,
+    type: types.SET_ERRORS,
     payload: errors
 });

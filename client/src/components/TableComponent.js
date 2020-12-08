@@ -12,34 +12,8 @@ import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
-import {useDispatch} from "react-redux";
-import {get_allEmployees} from "../redux/actions/actions";
 
-function createData(name, calories, fat, carbs, protein, sa, sw) {
-    return {name, calories, fat, carbs, protein, sa, sw};
-}
-
-const rows = [
-    createData('Cupcake', 305, 3.7, 67, 4.3, 5, 6),
-    createData('Donut', 452, 25.0, 51, 4.9, 5, 6),
-    createData('Eclair', 262, 16.0, 24, 6.0, 5, 6),
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 5, 6),
-    createData('Gingerbread', 356, 16.0, 49, 3.9, 5, 6),
-    createData('Honeycomb', 408, 3.2, 87, 6.5, 5, 6),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 5, 6)
-];
-
-const headCells = [
-    {id: 1, disablePadding: false, label: 'ID'},
-    {id: 2, disablePadding: false, label: 'Full Name'},
-    {id: 3, disablePadding: false, label: 'Role'},
-    {id: 4, disablePadding: false, label: 'Business Location'},
-    {id: 5, disablePadding: false, label: 'Email'},
-    {id: 6, disablePadding: false, label: 'Phone'},
-    {id: 7, disablePadding: false, label: 'Hourly Rate'},
-];
-
-function EnhancedTableHead(props) {
+function EnhancedTableHead({ headCells }) {
     return (
         <TableHead>
             <TableRow style={{borderBottom: '2px solid rgba(0, 0, 0, .4)'}}>
@@ -62,6 +36,7 @@ function EnhancedTableHead(props) {
 
 const StyledTableRow = withStyles((theme) => ({
     root: {
+        cursor: 'pointer',
         '&:nth-of-type(odd)': {
             backgroundColor: theme.palette.action.hover,
         }
@@ -98,25 +73,20 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function TableComponent() {
+export default function TableComponent({ rows, headCells }) {
     const classes = useStyles();
     const [selected, setSelected] = React.useState([]);
     const [page, setPage] = React.useState(0);
-    const dispatch = useDispatch();
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
-            const newSelecteds = rows.map((n) => n.name);
+            const newSelecteds = rows.map((n) => n.id);
             setSelected(newSelecteds);
             return;
         }
         setSelected([]);
     };
-
-    useEffect(() => {
-        dispatch(get_allEmployees())
-    }, []);
 
     const handleClick = (event, name) => {
         const selectedIndex = selected.indexOf(name);
@@ -162,6 +132,7 @@ export default function TableComponent() {
                         aria-label="enhanced table"
                     >
                         <EnhancedTableHead
+                            headCells={headCells}
                             classes={classes}
                             numSelected={selected.length}
                             onSelectAllClick={handleSelectAllClick}
@@ -170,17 +141,17 @@ export default function TableComponent() {
                         <TableBody>
                             {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row, index) => {
-                                    const isItemSelected = isSelected(row.name);
+                                    const isItemSelected = isSelected(row._id);
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
                                         <StyledTableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.name)}
+                                            onClick={(event) => handleClick(event, row._id)}
                                             role="checkbox"
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
-                                            key={row.name}
+                                            key={row._id}
                                             selected={isItemSelected}
                                         >
                                             <TableCell padding="checkbox">
@@ -189,13 +160,13 @@ export default function TableComponent() {
                                                     inputProps={{'aria-labelledby': labelId}}
                                                 />
                                             </TableCell>
-                                            <TableCell align="center">{row.name}</TableCell>
-                                            <TableCell align="center">{row.calories}</TableCell>
-                                            <TableCell align="center">{row.fat}</TableCell>
-                                            <TableCell align="center">{row.carbs}</TableCell>
-                                            <TableCell align="center">{row.protein}</TableCell>
-                                            <TableCell align="center">{row.sa}</TableCell>
-                                            <TableCell align="center">{row.sw}</TableCell>
+                                            <TableCell align="center">{row._id}</TableCell>
+                                            <TableCell align="center">{`${row.firstName} ${row.lastName}`}</TableCell>
+                                            <TableCell align="center">{row.role.title}</TableCell>
+                                            <TableCell align="center">{row.businessLocation.title}</TableCell>
+                                            <TableCell align="center">{row.workEmail}</TableCell>
+                                            <TableCell align="center">{row.workPhone}</TableCell>
+                                            <TableCell align="center">{row.hourlyRate}</TableCell>
                                         </StyledTableRow>
                                     );
                                 })}
@@ -207,36 +178,36 @@ export default function TableComponent() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <div className={classes.grid}>
-                    <Grid container>
-                        <Grid item xs={2}>
-                            <Button variant="contained" color="primary" className={classes.button}>
-                                Add employee
-                            </Button>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Button variant="outlined" className={classes.button}
-                                    disabled={selected.length > 1}>
-                                Edit
-                            </Button>
-                        </Grid>
-                        <Grid item xs={2}>
-                            <Button variant="outlined" color="secondary" className={classes.button}
-                                    disabled={!selected.length}>
-                                Delete
-                            </Button>
-                        </Grid>
-                    </Grid>
-                </div>
-                {/*<TablePagination*/}
-                {/*    rowsPerPageOptions={[5, 10, 25]}*/}
-                {/*    component="div"*/}
-                {/*    count={rows.length}*/}
-                {/*    rowsPerPage={rowsPerPage}*/}
-                {/*    page={page}*/}
-                {/*    onChangePage={handleChangePage}*/}
-                {/*    onChangeRowsPerPage={handleChangeRowsPerPage}*/}
-                {/*/>*/}
+                {/*<div className={classes.grid}>*/}
+                {/*    <Grid container>*/}
+                {/*        <Grid item xs={2}>*/}
+                {/*            <Button variant="contained" color="primary" className={classes.button}>*/}
+                {/*                Add employee*/}
+                {/*            </Button>*/}
+                {/*        </Grid>*/}
+                {/*        <Grid item xs={2}>*/}
+                {/*            <Button variant="outlined" className={classes.button}*/}
+                {/*                    disabled={selected.length > 1}>*/}
+                {/*                Edit*/}
+                {/*            </Button>*/}
+                {/*        </Grid>*/}
+                {/*        <Grid item xs={2}>*/}
+                {/*            <Button variant="outlined" color="secondary" className={classes.button}*/}
+                {/*                    disabled={!selected.length}>*/}
+                {/*                Delete*/}
+                {/*            </Button>*/}
+                {/*        </Grid>*/}
+                {/*    </Grid>*/}
+                {/*</div>*/}
+                <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={rows.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                />
             </Paper>
         </div>
     );
