@@ -11,19 +11,20 @@ const NotificationComponent = props => {
     const notifications = useSelector(({ notifications }) => notifications.notifications);
 
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-    const enqueueSnackbars = (...args) => dispatch(enqueueSnackbarAction(...args));
-
-    const infoSnackbar = (message = "Something wen't wrong, please try again!", variant = 'error') => {
-        enqueueSnackbars({
-            message,
-            options: {
-                variant,
-                key: new Date().getTime() + Math.random()
-            }
-        });
-    };
 
     React.useEffect(() => {
+        const enqueueSnackbars = (...args) => dispatch(enqueueSnackbarAction(...args));
+
+        const infoSnackbar = (message = "Something wen't wrong, please try again!", variant = 'error') => {
+            enqueueSnackbars({
+                message,
+                options: {
+                    variant,
+                    key: new Date().getTime() + Math.random()
+                }
+            });
+        };
+
         const requestHandler = request => {
             return request;
         };
@@ -55,7 +56,7 @@ const NotificationComponent = props => {
             response => responseHandler(response),
             error => {
                 if (error) {
-                    infoSnackbar();
+                    infoSnackbar(error.response.data.message);
                 }
 
                 return Promise.reject(error.response);
@@ -66,7 +67,7 @@ const NotificationComponent = props => {
             instance.interceptors.response.eject(myResponseInterceptor);
             instance.interceptors.request.eject(myRequestInterceptor);
         };
-    }, [dispatch, infoSnackbar]);
+    }, [dispatch]);
 
     const storeDisplayed = id => {
         displayed = [...displayed, id];

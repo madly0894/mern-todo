@@ -96,8 +96,6 @@ const DialogComponent = (props) => {
         }));
     };
 
-    console.log(form)
-
     useEffect(() => {
         if (data) {
             setForm(data);

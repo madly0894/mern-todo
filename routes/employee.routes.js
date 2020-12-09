@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
                 res.status(200).json(result)
             })
             .catch(errors => {
-                res.status(400).json({ message: "Bad Request", errors })
+                res.status(400).json({ message: "An error occurred while retrieving information!", errors })
             });
 
     } catch (e) {
@@ -26,11 +26,12 @@ router.post('/add',
     async (req, res) => {
         try {
             const errors = validationResult(req);
+            const message = "Bad Request during creation!";
 
             if (!errors.isEmpty()) {
                 return res.status(400).json({
                     errors: errors.array(),
-                    message: 'Bad Request'
+                    message
                 })
             }
 
@@ -55,11 +56,11 @@ router.post('/add',
                             };
                             errors.push(obj);
 
-                            return res.status(400).json({ message: "Bad Request", errors })
+                            return res.status(400).json({ message, errors })
                         }
                     }
 
-                    res.status(400).json({ message: "Bad Request", errors: err })
+                    res.status(400).json({ message, errors: err })
                 });
 
         } catch (e) {
@@ -71,11 +72,12 @@ router.put('/update/:id',
     validationRules, async (req, res) => {
     try {
         const errors = validationResult(req);
+        const message = "Bad Request during update!";
 
         if (!errors.isEmpty()) {
             return res.status(400).json({
                 errors: errors.array(),
-                message: 'Bad Request'
+                message
             })
         }
 
@@ -98,7 +100,7 @@ router.put('/update/:id',
                         res.status(200).json({ message: 'Employee updated!', data: result })
                     })
                     .catch(errors => {
-                        res.status(400).json({ message: "Bad Request", errors })
+                        res.status(400).json({ message, errors })
                     });
             })
 
@@ -110,6 +112,7 @@ router.put('/update/:id',
 router.delete('/', async (req, res) => {
     try {
         const {_id} = req.query;
+        const message = "Bad Request during delete!";
 
         await Employee.deleteMany({
             _id: {$in: _id}
@@ -118,7 +121,7 @@ router.delete('/', async (req, res) => {
                 res.status(200).json({ message: 'Selected employees deleted!' });
             })
             .catch(errors => {
-                res.status(400).json({ message: "Bad Request", errors });
+                res.status(400).json({ message, errors });
             })
 
     } catch (e) {
