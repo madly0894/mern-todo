@@ -17,7 +17,7 @@ import FormComponent from "./FormComponent";
 import {makeStyles} from "@material-ui/core/styles";
 import _ from 'lodash';
 import Typography from "@material-ui/core/Typography";
-import LoadingComponent from "./LoadingComponent";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = makeStyles(theme => ({
     dialogAction: {
@@ -27,6 +27,21 @@ const useStyles = makeStyles(theme => ({
         textTransform: 'capitalize',
         fontWeight: 900,
         fontSize: theme.spacing(3)
+    },
+    wrapper: {
+        position: 'relative',
+    },
+    blockProgress: {
+        width: 44,
+        height: 22,
+        marginLeft: theme.spacing(1)
+    },
+    buttonProgress: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12,
     }
 }));
 
@@ -48,7 +63,7 @@ const DialogComponent = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const {open, action, data, selectedRowIds} = useSelector(({ settings }) => settings.dialog);
-    const {success} = useSelector(({ todo }) => todo);
+    const {success, loading} = useSelector(({ todo }) => todo);
     const [form, setForm] = useState(initialState);
 
     const handleChangeForm = (event, key = null) => {
@@ -146,19 +161,29 @@ const DialogComponent = (props) => {
                     )}
             </DialogContent>
             <DialogActions className={classes.dialogAction}>
-                <Button onClick={handleDisagreeDialog} color="secondary">
+                <Button size="small" variant="outlined" onClick={handleDisagreeDialog}>
                     Close
                 </Button>
-                <Button
-                    onClick={handleAgreeDialog}
-                    variant="contained"
-                    color="primary"
-                    disabled={action === 'delete' ? false : _.isEqual(data, form)}
-                >
-                    {action}
-                </Button>
+                <div className={classes.wrapper}>
+                    {
+                        loading ? (
+                            <div className={classes.blockProgress}>
+                                <CircularProgress size={24} className={classes.buttonProgress} />
+                            </div>
+                        ) : (
+                            <Button
+                                onClick={handleAgreeDialog}
+                                variant="contained"
+                                color="primary"
+                                size="small"
+                                disabled={action === 'delete' ? false : _.isEqual(data, form)}
+                            >
+                                {action}
+                            </Button>
+                        )
+                    }
+                </div>
             </DialogActions>
-            <LoadingComponent />
         </Dialog>
     );
 };

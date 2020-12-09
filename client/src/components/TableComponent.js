@@ -15,12 +15,53 @@ import TablePagination from "@material-ui/core/TablePagination";
 import Grid from "@material-ui/core/Grid";
 import LoadingComponent from "./LoadingComponent";
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: '100%',
+        maxWidth: 1024,
+    },
+    grid: {
+        flexGrow: 1,
+    },
+    paper: {
+        width: '100%',
+    },
+    tableContainer: {
+        position: 'relative',
+    },
+    tableHeadRow: {
+        borderBottom: '2px solid rgba(0, 0, 0, .2)'
+    },
+    table: {
+        minWidth: 992,
+        border: '1px solid rgba(224, 224, 224, 1)',
+    },
+    visuallyHidden: {
+        border: 0,
+        clip: 'rect(0 0 0 0)',
+        height: 1,
+        margin: -1,
+        overflow: 'hidden',
+        padding: 0,
+        position: 'absolute',
+        top: 20,
+        width: 1,
+    },
+    footer: {
+        [theme.breakpoints.down('xs')]: {
+            flexDirection: 'column'
+        }
+    }
+}));
+
 function EnhancedTableHead({ headCells }) {
+    const classes = useStyles();
+
     return (
         <TableHead>
-            <TableRow style={{borderBottom: '2px solid rgba(0, 0, 0, .4)'}}>
+            <TableRow className={classes.tableHeadRow}>
                 <TableCell padding="checkbox">
-                    <Typography style={{textAlign: 'center'}}>#</Typography>
+                    <Typography align="center">#</Typography>
                 </TableCell>
                 {headCells.map((headCell) => (
                     <TableCell
@@ -44,42 +85,6 @@ const StyledTableRow = withStyles((theme) => ({
         }
     }
 }))(TableRow);
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        maxWidth: 1024,
-    },
-    grid: {
-        flexGrow: 1,
-    },
-    paper: {
-        width: '100%',
-    },
-    tableContainer: ({ open }) => ({
-        position: open ? 'inherit' : 'relative',
-    }),
-    table: {
-        minWidth: 992,
-        border: '1px solid rgba(224, 224, 224, 1)',
-    },
-    visuallyHidden: {
-        border: 0,
-        clip: 'rect(0 0 0 0)',
-        height: 1,
-        margin: -1,
-        overflow: 'hidden',
-        padding: 0,
-        position: 'absolute',
-        top: 20,
-        width: 1,
-    },
-    footer: {
-        [theme.breakpoints.down('xs')]: {
-            flexDirection: 'column'
-        }
-    }
-}));
 
 const TableComponent = ({ rows, headCells }) => {
     const [selected, setSelected] = React.useState([]);

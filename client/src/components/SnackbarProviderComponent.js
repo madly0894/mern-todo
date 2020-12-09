@@ -21,11 +21,12 @@ const SnackbarProviderComponent = ({ children }) => {
                 </Button>
             )}
             maxSnack={3}
+            dense
             anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left'
+                vertical: 'top',
+                horizontal: 'right'
             }}
-            autoHideDuration={3000}
+            autoHideDuration={2000}
         >
             {children}
         </SnackbarProvider>
