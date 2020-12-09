@@ -35,12 +35,6 @@ code {
   margin-left: 4px !important;
 }
 
-@media (max-width: 600px) {
-  .MuiFormHelperText-root {
-    width: 229px;
-  }
-}
-
 .MuiFormHelperText-root span::before {
   content: "• " !important;
 }
@@ -63,3 +57,14 @@ table tbody tr td {
   font-weight: 500 !important;
 }
 
+@media (max-width: 600px) {
+  .MuiFormHelperText-root {
+    width: 229px;
+  }
+}
+
+@media (max-height: 700px) {
+  .App {
+    display: block;
+  }
+}

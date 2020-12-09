@@ -5,7 +5,6 @@ const initialState = {
     // employee: null,
     errors: null,
     success: false,
-    finally: true,
     loading: false
 };
 
@@ -36,6 +35,7 @@ function todo(state = initialState, action) {
                 ...state,
                 employees: edit,
                 success: true,
+                loading: false
             };
         case types.DELETE_EMPLOYEES:
             const deleteAll = state.employees.filter((item, i) => payload.indexOf(item._id) === -1);
