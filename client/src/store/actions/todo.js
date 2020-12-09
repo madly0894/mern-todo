@@ -130,11 +130,13 @@ export const action_employeeById = (data) => ({
 
 // Delete All Employees
 
-export const deleteAllEmployees = () => async (dispatch) => {
+export const deleteAllEmployees = (id) => async (dispatch) => {
     dispatch(action_setLoading());
 
+    const ids = id.toString()
+
     try {
-        await instance.delete(`/all`)
+        await instance.delete(`/all/:${ids}`)
             .then(() => {
                 dispatch(action_deleteAllEmployees());
                 dispatch(closeDialog());

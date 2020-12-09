@@ -116,7 +116,7 @@ const DialogComponent = (props) => {
             handleEditEmployee(form);
         } else if (action === 'delete') {
             if (selectedRowIds.length > 1) {
-                dispatch(deleteAllEmployees())
+                dispatch(deleteAllEmployees(selectedRowIds))
             } else {
                 handleDeleteEmployee(form._id);
             }

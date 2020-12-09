@@ -241,14 +241,30 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
-router.delete('/all', async (req, res) => {
+router.delete('/all/:id', async (req, res) => {
     try {
-        await Employee.findAndModify().then(() => {
-                res.status(200).json({ message: 'All Employees deleted!' });
+        const ids = req.params.id.substring(1);
+        const one = ids.split(',')[0];
+        const two = ids.split(',')[1];
+        const b = [one, two]
+
+        const id = {
+            _id: {$in: [b]}
+        };
+
+        await Employee.find(id)
+            .then(() => {
+                Employee.deleteMany(id)
+                    .then(() => {
+                        res.status(200).json({ message: 'All employees deleted!' });
+                    })
+                    .catch(() => {
+                        console.log(2)
+                    })
             })
-            .catch(errors => {
-                res.status(400).json({ message: "Bad Request", errors });
-            });
+            .catch(() => {
+
+            })
 
     } catch (e) {
         res.status(500).json({ message: "'Something wen't wrong, please try again" })
