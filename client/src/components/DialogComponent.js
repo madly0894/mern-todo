@@ -12,6 +12,7 @@ import FormComponent from "./FormComponent";
 import {makeStyles} from "@material-ui/core/styles";
 import _ from 'lodash';
 import Typography from "@material-ui/core/Typography";
+import LoadingComponent from "./LoadingComponent";
 
 const useStyles = makeStyles(theme => ({
     dialogAction: {
@@ -44,6 +45,7 @@ const DialogComponent = (props) => {
     const {open, action, data, selectedRowIds} = useSelector(({ settings }) => settings.dialog);
     const {errors, loading} = useSelector(({ reducers }) => reducers);
     const [form, setForm] = useState(initialState);
+    const [check, setCheck] = useState(false);
 
     const handleChangeForm = (event, key) => {
         if (key) {
@@ -82,10 +84,10 @@ const DialogComponent = (props) => {
     };
 
     const handleDisagreeDialog = () => {
-        dispatch(toggleDialog({data: form, key: action, selectedRowIds: []}))
+        dispatch(toggleDialog({data: form, key: action, selectedRowIds}))
     };
 
-    const handleAgreeDialog = () => {
+    const handleAgreeDialog = React.useCallback(() => {
         if (action === 'edit') {
             handleEditEmployee(form);
         } else if (action === 'delete') {
@@ -98,51 +100,54 @@ const DialogComponent = (props) => {
             handleAddEmployee(form);
         }
 
-        // if (!errors.length) {
-        //     handleDisagreeDialog();
-        //     setForm(initialState);
-        // }
-    };
+        if (!_.isEmpty(errors)) {
+            handleDisagreeDialog();
+            setForm(initialState);
+        }
+    }, [dispatch, form, action]);
 
     return (
-        <Dialog
-            fullWidth
-            maxWidth="md"
-            open={open}
-            onClose={handleDisagreeDialog}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
-        >
-            <DialogTitle id="alert-dialog-title">
-                <Typography className={classes.typography}>
-                    {action} {selectedRowIds.length > 1 ? 'Employees' : 'Employee'}
-                </Typography>
-            </DialogTitle>
-            <DialogContent>
-                {action === 'delete'
-                    ? (
-                        <DialogContentText id="alert-dialog-description">
-                            Are you sure you want to delete { selectedRowIds.length > 1 ? 'all employees' : `this employee ${data._id}`}?
-                        </DialogContentText>
-                    )
-                    : (
-                        <FormComponent form={form} handleChangeForm={handleChangeForm}/>
-                    )}
-            </DialogContent>
-            <DialogActions className={classes.dialogAction}>
-                <Button onClick={handleDisagreeDialog} color="secondary">
-                    Close
-                </Button>
-                <Button
-                    onClick={handleAgreeDialog}
-                    variant="contained"
-                    color="primary"
-                    disabled={action === 'delete' ? false : (_.isEqual(data, form))}
-                >
-                    {action}
-                </Button>
-            </DialogActions>
-        </Dialog>
+        <>
+            <Dialog
+                fullWidth
+                maxWidth="md"
+                open={open}
+                onClose={handleDisagreeDialog}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+            >
+                <DialogTitle id="alert-dialog-title">
+                    <Typography className={classes.typography}>
+                        {action} {selectedRowIds.length > 1 ? 'Employees' : 'Employee'}
+                    </Typography>
+                </DialogTitle>
+                <DialogContent>
+                    {action === 'delete'
+                        ? (
+                            <DialogContentText id="alert-dialog-description">
+                                Are you sure you want to delete { selectedRowIds.length > 1 ? 'all employees' : `this employee ${data._id}`}?
+                            </DialogContentText>
+                        )
+                        : (
+                            <FormComponent form={form} handleChangeForm={handleChangeForm}/>
+                        )}
+                </DialogContent>
+                <DialogActions className={classes.dialogAction}>
+                    <Button onClick={handleDisagreeDialog} color="secondary">
+                        Close
+                    </Button>
+                    <Button
+                        onClick={handleAgreeDialog}
+                        variant="contained"
+                        color="primary"
+                        disabled={action === 'delete' ? false : _.isEqual(data, form)}
+                    >
+                        {action}
+                    </Button>
+                </DialogActions>
+                <LoadingComponent />
+            </Dialog>
+        </>
     );
 };
 

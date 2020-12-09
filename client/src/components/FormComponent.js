@@ -6,6 +6,7 @@ import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import db from "../store/db";
+import {useSelector} from "react-redux";
 
 const useStyles = makeStyles(theme => ({
     typography: {
@@ -18,27 +19,34 @@ const useStyles = makeStyles(theme => ({
     item: {
         margin: theme.spacing(1, 20),
         [theme.breakpoints.down('sm')]: {
+            margin: theme.spacing(1, 5),
+        },
+        [theme.breakpoints.down('xs')]: {
             flexDirection: 'column',
+            alignItems: 'center',
             margin: theme.spacing(0),
         }
     },
     title: {
-        [theme.breakpoints.down('sm')]: {
+        paddingTop: 10,
+        [theme.breakpoints.down('xs')]: {
+            paddingTop: 0,
             margin: theme.spacing(1, 0)
         }
     },
     headline: {
         marginTop: theme.spacing(2),
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             marginTop: theme.spacing(2)
         }
     },
     select: {
-        width: 229,
+        maxWidth: 229,
+        minWidth: 180
     },
     lastInput: {
-        width: 114.5,
-        [theme.breakpoints.down("sm")]: {
+        // width: 114.5,
+        [theme.breakpoints.down("xs")]: {
             width: '100%'
         }
     },
@@ -46,8 +54,18 @@ const useStyles = makeStyles(theme => ({
 
 const FormComponent = ({form, handleChangeForm}) => {
     const classes = useStyles();
+    const {errors} = useSelector(({ reducers }) => reducers);
 
     const {businessLocations, companies, roles} = db;
+
+    const hasErrors = (key) => {
+        return key?.map((err, i) => (
+            <React.Fragment key={i}>
+                <span>{err.msg}</span>
+                <br/>
+            </React.Fragment>
+        ))
+    };
 
     return (
         <form noValidate autoComplete="off">
@@ -56,7 +74,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                     <Typography className={classes.typography}>Personal</Typography>
                     <Divider className={classes.divider}/>
                 </Grid>
-                <Grid container item justify="center" alignItems="center" className={classes.item}>
+                <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
                         <Typography>First Name:</Typography>
                     </Grid>
@@ -66,6 +84,8 @@ const FormComponent = ({form, handleChangeForm}) => {
                             variant="outlined"
                             placeholder="First Name"
                             autoFocus
+                            error={!!errors?.firstName}
+                            helperText={hasErrors(errors?.firstName)}
                             size="small"
                             name="firstName"
                             onChange={handleChangeForm}
@@ -73,7 +93,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                         />
                     </Grid>
                 </Grid>
-                <Grid container item justify="center" alignItems="center" className={classes.item}>
+                <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
                         <Typography>Last Name:</Typography>
                     </Grid>
@@ -82,6 +102,8 @@ const FormComponent = ({form, handleChangeForm}) => {
                             id="id-last-name"
                             variant="outlined"
                             placeholder="Last Name"
+                            error={!!errors?.lastName}
+                            helperText={hasErrors(errors?.lastName)}
                             size="small"
                             name="lastName"
                             onChange={handleChangeForm}
@@ -89,7 +111,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                         />
                     </Grid>
                 </Grid>
-                <Grid container item justify="center" alignItems="center" className={classes.item}>
+                <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
                         <Typography>Login:</Typography>
                     </Grid>
@@ -109,7 +131,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                     <Typography className={classes.typography}>Contact</Typography>
                     <Divider className={classes.divider}/>
                 </Grid>
-                <Grid container justify="center" alignItems="center" item className={classes.item}>
+                <Grid container justify="center" item className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
                         <Typography>Work Phone:</Typography>
                     </Grid>
@@ -125,7 +147,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                         />
                     </Grid>
                 </Grid>
-                <Grid container item justify="center" alignItems="center" className={classes.item}>
+                <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
                         <Typography>Personal Phone:</Typography>
                     </Grid>
@@ -134,6 +156,8 @@ const FormComponent = ({form, handleChangeForm}) => {
                             id="id-personal-phone"
                             variant="outlined"
                             placeholder="Personal Phone"
+                            error={!!errors?.personalPhone}
+                            helperText={hasErrors(errors?.personalPhone)}
                             size="small"
                             name="personalPhone"
                             onChange={handleChangeForm}
@@ -141,7 +165,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                         />
                     </Grid>
                 </Grid>
-                <Grid container item justify="center" alignItems="center" className={classes.item}>
+                <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
                         <Typography>Work Email:</Typography>
                     </Grid>
@@ -157,7 +181,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                         />
                     </Grid>
                 </Grid>
-                <Grid container item justify="center" alignItems="center" className={classes.item}>
+                <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
                         <Typography>Personal Email:</Typography>
                     </Grid>
@@ -166,6 +190,8 @@ const FormComponent = ({form, handleChangeForm}) => {
                             id="id-personal-email"
                             variant="outlined"
                             placeholder="Personal Email"
+                            error={!!errors?.personalEmail}
+                            helperText={hasErrors(errors?.personalEmail)}
                             size="small"
                             name="personalEmail"
                             onChange={handleChangeForm}
@@ -177,7 +203,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                     <Typography className={classes.typography}>Employment</Typography>
                     <Divider className={classes.divider}/>
                 </Grid>
-                <Grid container item justify="center" alignItems="center" className={classes.item}>
+                <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
                         <Typography>Business Location:</Typography>
                     </Grid>
@@ -192,11 +218,18 @@ const FormComponent = ({form, handleChangeForm}) => {
                                 handleChangeForm(value, 'businessLocation');
                             }}
                             getOptionLabel={(option) => option.title}
-                            renderInput={(params) => <TextField {...params} placeholder="Business Location" variant="outlined" />}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                   error={!!errors?.businessLocation}
+                                   helperText={hasErrors(errors?.businessLocation)}
+                                   placeholder="Business Location" variant="outlined"
+                                />
+                            )}
                         />
                     </Grid>
                 </Grid>
-                <Grid container item justify="center" alignItems="center" className={classes.item}>
+                <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
                         <Typography>Company:</Typography>
                     </Grid>
@@ -215,7 +248,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                         />
                     </Grid>
                 </Grid>
-                <Grid container item justify="center" alignItems="center" className={classes.item}>
+                <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
                         <Typography>Role:</Typography>
                     </Grid>
@@ -230,11 +263,19 @@ const FormComponent = ({form, handleChangeForm}) => {
                                 handleChangeForm(value, 'role');
                             }}
                             getOptionLabel={(option) => option.title}
-                            renderInput={(params) => <TextField {...params} placeholder="Role" variant="outlined" />}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    error={!!errors?.role}
+                                    helperText={hasErrors(errors?.role)}
+                                    placeholder="Role"
+                                    variant="outlined"
+                                />
+                            )}
                         />
                     </Grid>
                 </Grid>
-                <Grid container item justify="center" alignItems="center" className={classes.item}>
+                <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
                         <Typography>Hourly Rate:</Typography>
                     </Grid>
@@ -243,6 +284,8 @@ const FormComponent = ({form, handleChangeForm}) => {
                             id="id-hourly-rate"
                             variant="outlined"
                             placeholder="Hourly Rate"
+                            error={!!errors?.hourlyRate}
+                            helperText={hasErrors(errors?.hourlyRate)}
                             size="small"
                             name="hourlyRate"
                             onChange={handleChangeForm}
