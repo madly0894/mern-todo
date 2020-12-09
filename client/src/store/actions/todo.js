@@ -86,7 +86,7 @@ export const deleteEmployees = (id) => async (dispatch) => {
     dispatch(action_setLoading());
 
     try {
-        await instance.delete(`/all/:${id}`)
+        await instance.delete(`/:${id}`)
             .then(() => {
                 dispatch(action_deleteEmployees(id));
                 dispatch(closeDialog());
