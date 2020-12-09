@@ -107,18 +107,12 @@ router.put('/update/:id',
     }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/', async (req, res) => {
     try {
-        const ids = req.params.id.substring(1);
-
-        let arr = [];
-        if (ids) {
-            const id = [ids].map(i => i.split(','));
-            arr = id[0];
-        }
+        const {_id} = req.query;
 
         await Employee.deleteMany({
-            _id: {$in: arr}
+            _id: {$in: _id}
         })
             .then(() => {
                 res.status(200).json({ message: 'Selected employees deleted!' });
