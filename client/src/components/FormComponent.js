@@ -8,6 +8,7 @@ import Autocomplete from "@material-ui/lab/Autocomplete";
 import db from "../store/db";
 import {useSelector} from "react-redux";
 import NumberFormat from 'react-number-format';
+import FormHelperText from "@material-ui/core/FormHelperText";
 
 const useStyles = makeStyles(theme => ({
     typography: {
@@ -30,6 +31,7 @@ const useStyles = makeStyles(theme => ({
         [theme.breakpoints.down('xs')]: {
             flexDirection: 'column',
             alignItems: 'center',
+            textAlign: 'center',
             margin: theme.spacing(0),
         }
     },
@@ -51,7 +53,7 @@ const useStyles = makeStyles(theme => ({
         minWidth: 180
     },
     lastInput: {
-        // width: 114.5,
+        width: 114.5,
         [theme.breakpoints.down("xs")]: {
             width: '100%'
         }
@@ -91,12 +93,12 @@ const FormComponent = ({form, handleChangeForm}) => {
                             placeholder="First Name"
                             autoFocus
                             error={!!errors?.firstName}
-                            helperText={hasErrors(errors?.firstName)}
                             size="small"
                             name="firstName"
                             onChange={handleChangeForm}
                             value={form.firstName}
                         />
+                        <FormHelperText>{hasErrors(errors?.firstName)}</FormHelperText>
                     </Grid>
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
@@ -109,12 +111,12 @@ const FormComponent = ({form, handleChangeForm}) => {
                             variant="outlined"
                             placeholder="Last Name"
                             error={!!errors?.lastName}
-                            helperText={hasErrors(errors?.lastName)}
                             size="small"
                             name="lastName"
                             onChange={handleChangeForm}
                             value={form.lastName}
                         />
+                        <FormHelperText>{hasErrors(errors?.lastName)}</FormHelperText>
                     </Grid>
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
@@ -127,12 +129,12 @@ const FormComponent = ({form, handleChangeForm}) => {
                             variant="outlined"
                             placeholder="Login"
                             error={!!errors?.login}
-                            helperText={hasErrors(errors?.login)}
                             size="small"
                             name="login"
                             onChange={handleChangeForm}
                             value={form.login}
                         />
+                        <FormHelperText>{hasErrors(errors?.login)}</FormHelperText>
                     </Grid>
                 </Grid>
                 <Grid container direction="column" className={classes.headline}>
@@ -149,7 +151,6 @@ const FormComponent = ({form, handleChangeForm}) => {
                             id="id-work-phone"
                             placeholder="Work Phone"
                             error={!!errors?.workPhone}
-                            helperText={hasErrors(errors?.workPhone)}
                             size="small"
                             name="workPhone"
                             onChange={handleChangeForm}
@@ -157,6 +158,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                             variant="outlined"
                             format="###-###-####"
                         />
+                        <FormHelperText>{hasErrors(errors?.workPhone)}</FormHelperText>
                     </Grid>
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
@@ -170,13 +172,13 @@ const FormComponent = ({form, handleChangeForm}) => {
                             variant="outlined"
                             placeholder="Personal Phone"
                             error={!!errors?.personalPhone}
-                            helperText={hasErrors(errors?.personalPhone)}
                             size="small"
                             name="personalPhone"
                             onChange={handleChangeForm}
                             value={form.personalPhone}
                             format="###-###-####"
                         />
+                        <FormHelperText>{hasErrors(errors?.personalPhone)}</FormHelperText>
                     </Grid>
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
@@ -190,12 +192,12 @@ const FormComponent = ({form, handleChangeForm}) => {
                             type="email"
                             placeholder="Work Email"
                             error={!!errors?.workEmail}
-                            helperText={hasErrors(errors?.workEmail)}
                             size="small"
                             name="workEmail"
                             onChange={handleChangeForm}
                             value={form.workEmail}
                         />
+                        <FormHelperText>{hasErrors(errors?.workEmail)}</FormHelperText>
                     </Grid>
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
@@ -209,12 +211,12 @@ const FormComponent = ({form, handleChangeForm}) => {
                             type="email"
                             placeholder="Personal Email"
                             error={!!errors?.personalEmail}
-                            helperText={hasErrors(errors?.personalEmail)}
                             size="small"
                             name="personalEmail"
                             onChange={handleChangeForm}
                             value={form.personalEmail}
                         />
+                        <FormHelperText>{hasErrors(errors?.personalEmail)}</FormHelperText>
                     </Grid>
                 </Grid>
                 <Grid container direction="column" className={classes.headline}>
@@ -241,11 +243,11 @@ const FormComponent = ({form, handleChangeForm}) => {
                                 <TextField
                                     {...params}
                                    error={!!errors?.businessLocation}
-                                   helperText={hasErrors(errors?.businessLocation)}
                                    placeholder="Business Location" variant="outlined"
                                 />
                             )}
                         />
+                        <FormHelperText>{hasErrors(errors?.businessLocation)}</FormHelperText>
                     </Grid>
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
@@ -270,10 +272,10 @@ const FormComponent = ({form, handleChangeForm}) => {
                                     placeholder="Company"
                                     variant="outlined"
                                     error={!!errors?.company}
-                                    helperText={hasErrors(errors?.company)}
                                 />
                             )}
                         />
+                        <FormHelperText>{hasErrors(errors?.company)}</FormHelperText>
                     </Grid>
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
@@ -296,12 +298,12 @@ const FormComponent = ({form, handleChangeForm}) => {
                                 <TextField
                                     {...params}
                                     error={!!errors?.role}
-                                    helperText={hasErrors(errors?.role)}
                                     placeholder="Role"
                                     variant="outlined"
                                 />
                             )}
                         />
+                        <FormHelperText>{hasErrors(errors?.role)}</FormHelperText>
                     </Grid>
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
@@ -315,7 +317,6 @@ const FormComponent = ({form, handleChangeForm}) => {
                             variant="outlined"
                             placeholder="Hourly Rate"
                             error={!!errors?.hourlyRate}
-                            helperText={hasErrors(errors?.hourlyRate)}
                             size="small"
                             name="hourlyRate"
                             onChange={handleChangeForm}
@@ -323,6 +324,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                             className={classes.lastInput}
                             format="##"
                         />
+                        <FormHelperText>{hasErrors(errors?.hourlyRate)}</FormHelperText>
                     </Grid>
                 </Grid>
             </Grid>

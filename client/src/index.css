@@ -30,8 +30,19 @@ code {
   margin-right: 0 !important;
 }
 
-.MuiFormHelperText-contained span::before {
-  content: "• ";
+.MuiFormHelperText-root {
+  color: #f44336 !important;
+  margin-left: 4px !important;
+}
+
+@media (max-width: 600px) {
+  .MuiFormHelperText-root {
+    width: 229px;
+  }
+}
+
+.MuiFormHelperText-root span::before {
+  content: "• " !important;
 }
 
 table thead tr th,
@@ -51,3 +62,4 @@ table tbody tr td {
   font-size: 15px !important;
   font-weight: 500 !important;
 }
+
