@@ -2,7 +2,7 @@ import * as types from "../types";
 
 const initialState = {
     employees: [],
-    employee: null,
+    // employee: null,
     errors: null,
     success: false,
     loading: false
@@ -19,35 +19,10 @@ function todo(state = initialState, action) {
                 success: true,
                 loading: false
             };
-        case types.GET_EMPLOYEE_BY_ID:
-            return {
-                ...state,
-                employee: payload,
-                success: true,
-                loading: false
-            };
         case types.ADD_EMPLOYEE :
             return {
                 ...state,
                 employees: [...state.employees, payload],
-                success: true,
-                loading: false
-            };
-        case types.DELETE_EMPLOYEE :
-            const employees = state.employees.filter((item) => item._id !== payload);
-
-            return {
-                ...state,
-                employees,
-                success: true,
-                loading: false
-            };
-        case types.DELETE_ALL_EMPLOYEES:
-            const deleteAll = state.employees.filter((item, i) => payload.indexOf(item._id) === -1);
-
-            return {
-                ...state,
-                employees: deleteAll,
                 success: true,
                 loading: false
             };
@@ -60,6 +35,15 @@ function todo(state = initialState, action) {
                 ...state,
                 employees: edit,
                 success: true,
+            };
+        case types.DELETE_EMPLOYEES:
+            const deleteAll = state.employees.filter((item, i) => payload.indexOf(item._id) === -1);
+
+            return {
+                ...state,
+                employees: deleteAll,
+                success: true,
+                loading: false
             };
         case types.SET_LOADING:
             return {
@@ -80,6 +64,22 @@ function todo(state = initialState, action) {
                 errors: null,
             }
         }
+        // case types.GET_EMPLOYEE_BY_ID:
+        //     return {
+        //         ...state,
+        //         employee: payload,
+        //         success: true,
+        //         loading: false
+        //     };
+        // case types.DELETE_EMPLOYEE :
+        //     const employees = state.employees.filter((item) => item._id !== payload);
+        //
+        //     return {
+        //         ...state,
+        //         employees,
+        //         success: true,
+        //         loading: false
+        //     };
         default:
             return state;
     }

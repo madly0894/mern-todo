@@ -11,12 +11,19 @@ import Hidden from "@material-ui/core/Hidden";
 
 const useStyles = makeStyles((theme) => ({
     button: {
-        width: 200,
+        width: 180,
         marginRight: theme.spacing(2),
         [theme.breakpoints.down('sm')]: {
+            marginBottom: theme.spacing(1),
+            '&:first-child': {
+                marginTop: theme.spacing(1)
+            }
+        },
+        [theme.breakpoints.down('xs')]: {
             width: 'auto',
             marginTop: theme.spacing(2)
         },
+
         '&:last-child': {
             marginRight: 0
         }
@@ -39,29 +46,29 @@ const ActionComponent = ({ selectedRowData, selectedRowIds }) => {
         <Grid container>
             <Grid item xs className={classes.buttonGroup}>
                 <Button onClick={() => handleOpenDialog("add")} size="small" variant="contained" color="primary" className={classes.button}>
-                    <Hidden mdUp>
+                    <Hidden smUp>
                         <AddIcon />
                     </Hidden>
-                    <Hidden smDown>
+                    <Hidden xsDown>
                         Add employee
                     </Hidden>
                 </Button>
                 <Button onClick={() => handleOpenDialog("edit")} size="small" variant="outlined" className={classes.button}
                         disabled={selectedRowIds.length > 1 || selectedRowIds.length === 0}>
-                    <Hidden mdUp>
+                    <Hidden smUp>
                         <EditIcon />
                     </Hidden>
-                    <Hidden smDown>
-                        Edit employee
+                    <Hidden xsDown>
+                        Edit
                     </Hidden>
                 </Button>
                 <Button onClick={() => handleOpenDialog("delete")} size="small" variant="outlined" color="secondary" className={classes.button}
                         disabled={!selectedRowIds.length}>
-                    <Hidden mdUp>
+                    <Hidden smUp>
                         <DeleteIcon />
                     </Hidden>
-                    <Hidden smDown>
-                        Delete {selectedRowIds.length > 1 ? 'all employees' : 'employee'}
+                    <Hidden xsDown>
+                        Delete
                     </Hidden>
                 </Button>
             </Grid>

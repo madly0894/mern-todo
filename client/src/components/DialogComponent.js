@@ -10,8 +10,7 @@ import {toggleDialog} from "../store/actions/settings";
 import {
     action_reset,
     addEmployee,
-    deleteAllEmployees,
-    deleteEmployee,
+    deleteEmployees,
     updateEmployee
 } from "../store/actions/todo";
 import FormComponent from "./FormComponent";
@@ -102,8 +101,8 @@ const DialogComponent = (props) => {
         dispatch(updateEmployee(form));
     };
 
-    const handleDeleteEmployee = () => {
-        dispatch(deleteEmployee(form._id));
+    const handleDeleteEmployees = () => {
+        dispatch(deleteEmployees(selectedRowIds));
     };
 
     const handleDisagreeDialog = () => {
@@ -113,15 +112,11 @@ const DialogComponent = (props) => {
 
     const handleAgreeDialog = () => {
         if (action === 'edit') {
-            handleEditEmployee(form);
+            handleEditEmployee();
         } else if (action === 'delete') {
-            if (selectedRowIds.length > 1) {
-                dispatch(deleteAllEmployees(selectedRowIds))
-            } else {
-                handleDeleteEmployee(form._id);
-            }
+            handleDeleteEmployees()
         } else {
-            handleAddEmployee(form);
+            handleAddEmployee();
         }
     };
 
@@ -143,7 +138,7 @@ const DialogComponent = (props) => {
                 {action === 'delete'
                     ? (
                         <DialogContentText id="alert-dialog-description">
-                            Are you sure you want to delete { selectedRowIds.length > 1 ? 'all employees' : `this employee ${data.firstName} ${data.lastName}`}?
+                            Are you sure you want to delete { selectedRowIds.length > 1 ? 'employees' : `this employee ${data.firstName} ${data.lastName}`}?
                         </DialogContentText>
                     )
                     : (

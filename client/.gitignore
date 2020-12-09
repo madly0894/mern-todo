@@ -12,6 +12,7 @@
 # production
 /build
 build
+.eslintcache
 
 # misc
 .DS_Store

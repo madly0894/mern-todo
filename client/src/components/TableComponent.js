@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
         width: '100%',
     },
     tableContainer: ({ open }) => ({
-        position: open ? 'inherit' : 'relative'
+        position: open ? 'inherit' : 'relative',
     }),
     table: {
         minWidth: 992,
@@ -74,11 +74,8 @@ const useStyles = makeStyles((theme) => ({
         top: 20,
         width: 1,
     },
-    button: {
-        width: 200
-    },
     footer: {
-        [theme.breakpoints.down('sm')]: {
+        [theme.breakpoints.down('xs')]: {
             flexDirection: 'column'
         }
     }
@@ -202,10 +199,10 @@ const TableComponent = ({ rows, headCells }) => {
                     <LoadingComponent />
                 </TableContainer>
                 <Grid container alignItems="center" className={classes.footer}>
-                    <Grid item xs={12} sm={12} md={8}>
+                    <Grid item xs={12} sm={7}>
                         <ActionComponent selectedRowData={selectedRowData} selectedRowIds={selected} />
                     </Grid>
-                    <Grid item xs={12} sm={12} md={4}>
+                    <Grid item xs={12} sm={5}>
                         <TablePagination
                             rowsPerPageOptions={[5, 10, 25]}
                             component="div"
