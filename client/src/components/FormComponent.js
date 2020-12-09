@@ -233,7 +233,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                             className={classes.select}
                             id="id-business-location"
                             options={businessLocations}
-                            getOptionSelected={(option, value) => option._id === value._id}
+                            getOptionSelected={(option, value) => option.title === value.title}
                             value={form.businessLocation}
                             onChange={(option, value) => {
                                 handleChangeForm(value, 'businessLocation');
@@ -260,7 +260,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                             className={classes.select}
                             id="id-company"
                             options={companies}
-                            getOptionSelected={(option, value) => option._id === value._id}
+                            getOptionSelected={(option, value) => option.title === value.title}
                             value={form.company}
                             onChange={(option, value) => {
                                 handleChangeForm(value, 'company');
@@ -288,7 +288,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                             className={classes.select}
                             id="id-role"
                             options={roles}
-                            getOptionSelected={(option, value) => option._id === value._id}
+                            getOptionSelected={(option, value) => option.title === value.title}
                             value={form.role}
                             onChange={(option, value) => {
                                 handleChangeForm(value, 'role');
@@ -322,7 +322,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                             onChange={handleChangeForm}
                             value={form.hourlyRate}
                             className={classes.lastInput}
-                            format="##"
+                            format="##.00"
                         />
                         <FormHelperText>{hasErrors(errors?.hourlyRate)}</FormHelperText>
                     </Grid>

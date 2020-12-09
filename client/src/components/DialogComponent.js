@@ -86,7 +86,7 @@ const DialogComponent = (props) => {
         if (name === 'hourlyRate') {
             return setForm(form => ({
                 ...form,
-                [name]: value === '' ? '' : +value
+                [name]: value === '' ? '' : +value.replace(/[".0']/g, "")
             }));
         }
 
@@ -95,6 +95,8 @@ const DialogComponent = (props) => {
             [name]: value
         }));
     };
+
+    console.log(form)
 
     useEffect(() => {
         if (data) {

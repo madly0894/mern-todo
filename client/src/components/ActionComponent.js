@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
         [theme.breakpoints.down('sm')]: {
             marginBottom: theme.spacing(1),
+            marginTop: theme.spacing(1),
             '&:first-child': {
                 marginTop: theme.spacing(1)
             }
