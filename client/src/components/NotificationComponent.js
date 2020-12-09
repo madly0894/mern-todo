@@ -55,9 +55,6 @@ const NotificationComponent = props => {
             response => responseHandler(response),
             error => {
                 if (error) {
-                    if (error.response.status === 401) {
-                        return infoSnackbar('You are not logged in. Please log in and try again!', 'error');
-                    }
                     infoSnackbar();
                 }
 

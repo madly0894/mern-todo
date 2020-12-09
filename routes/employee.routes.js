@@ -101,8 +101,9 @@ const validationRules = checkSchema({
         notEmpty: {
             errorMessage: 'The Hourly Rate field is required'
         },
-        isFloat: {
-            errorMessage: 'Hourly Rate should be double type'
+        isLength: {
+            options: { max: 2 },
+            errorMessage: ' Hourly Rate should not be greater than 2 chars',
         }
     }
 });

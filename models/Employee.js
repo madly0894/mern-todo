@@ -4,8 +4,8 @@ const schema = new Schema({
     firstName: {type: String, required: true},
     lastName: {type: String, required: true},
     login: {type: String, required: true},
-    workPhone: {type: String, unique: true},
-    personalPhone: {type: String, required: true, unique: true},
+    workPhone: {type: Number, unique: true},
+    personalPhone: {type: Number, required: true, unique: true},
     workEmail: {type: String, unique: true},
     personalEmail: {type: String, required: true, unique: true},
     businessLocation: {
@@ -20,7 +20,7 @@ const schema = new Schema({
         _id: {type: Types.ObjectId, required: true},
         title: {type: String, required: true}
     },
-    hourlyRate: {type: String, required: true},
+    hourlyRate: {type: Number, required: true},
 }, {
     timestamps: true
 });

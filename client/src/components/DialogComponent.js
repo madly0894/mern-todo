@@ -52,7 +52,7 @@ const DialogComponent = (props) => {
     const {success} = useSelector(({ todo }) => todo);
     const [form, setForm] = useState(initialState);
 
-    const handleChangeForm = (event, key) => {
+    const handleChangeForm = (event, key = null) => {
         if (key) {
             return setForm(form => ({
                 ...form,
@@ -61,6 +61,20 @@ const DialogComponent = (props) => {
         }
 
         const {name, value} = event.target;
+
+        if (name === 'workPhone' || name === 'personalPhone') {
+            return setForm(form => ({
+                ...form,
+                [name]: value === '' ? '' : +value.replace(/[^0-9]+/g, "")
+            }));
+        }
+
+        if (name === 'hourlyRate') {
+            return setForm(form => ({
+                ...form,
+                [name]: value === '' ? '' : +value
+            }));
+        }
 
         setForm(form => ({
             ...form,

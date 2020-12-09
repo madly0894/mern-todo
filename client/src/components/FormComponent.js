@@ -7,6 +7,7 @@ import Divider from "@material-ui/core/Divider";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import db from "../store/db";
 import {useSelector} from "react-redux";
+import NumberFormat from 'react-number-format';
 
 const useStyles = makeStyles(theme => ({
     typography: {
@@ -138,9 +139,9 @@ const FormComponent = ({form, handleChangeForm}) => {
                         <Typography>Work Phone:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
-                        <TextField
+                        <NumberFormat
+                            customInput={TextField}
                             id="id-work-phone"
-                            variant="outlined"
                             placeholder="Work Phone"
                             error={!!errors?.workPhone}
                             helperText={hasErrors(errors?.workPhone)}
@@ -148,6 +149,8 @@ const FormComponent = ({form, handleChangeForm}) => {
                             name="workPhone"
                             onChange={handleChangeForm}
                             value={form.workPhone}
+                            variant="outlined"
+                            format="###-###-####"
                         />
                     </Grid>
                 </Grid>
@@ -156,7 +159,8 @@ const FormComponent = ({form, handleChangeForm}) => {
                         <Typography>Personal Phone:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
-                        <TextField
+                        <NumberFormat
+                            customInput={TextField}
                             id="id-personal-phone"
                             variant="outlined"
                             placeholder="Personal Phone"
@@ -166,6 +170,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                             name="personalPhone"
                             onChange={handleChangeForm}
                             value={form.personalPhone}
+                            format="###-###-####"
                         />
                     </Grid>
                 </Grid>
@@ -177,6 +182,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                         <TextField
                             id="id-work-email"
                             variant="outlined"
+                            type="email"
                             placeholder="Work Email"
                             error={!!errors?.workEmail}
                             helperText={hasErrors(errors?.workEmail)}
@@ -195,6 +201,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                         <TextField
                             id="id-personal-email"
                             variant="outlined"
+                            type="email"
                             placeholder="Personal Email"
                             error={!!errors?.personalEmail}
                             helperText={hasErrors(errors?.personalEmail)}
@@ -219,6 +226,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                             className={classes.select}
                             id="id-business-location"
                             options={businessLocations}
+                            getOptionSelected={(option, value) => option._id === value._id}
                             value={form.businessLocation}
                             onChange={(option, value) => {
                                 handleChangeForm(value, 'businessLocation');
@@ -245,6 +253,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                             className={classes.select}
                             id="id-company"
                             options={companies}
+                            getOptionSelected={(option, value) => option._id === value._id}
                             value={form.company}
                             onChange={(option, value) => {
                                 handleChangeForm(value, 'company');
@@ -272,6 +281,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                             className={classes.select}
                             id="id-role"
                             options={roles}
+                            getOptionSelected={(option, value) => option._id === value._id}
                             value={form.role}
                             onChange={(option, value) => {
                                 handleChangeForm(value, 'role');
@@ -294,7 +304,8 @@ const FormComponent = ({form, handleChangeForm}) => {
                         <Typography>Hourly Rate:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
-                        <TextField
+                        <NumberFormat
+                            customInput={TextField}
                             id="id-hourly-rate"
                             variant="outlined"
                             placeholder="Hourly Rate"
@@ -305,6 +316,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                             onChange={handleChangeForm}
                             value={form.hourlyRate}
                             className={classes.lastInput}
+                            format="##"
                         />
                     </Grid>
                 </Grid>
