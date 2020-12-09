@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
         }
     },
     select: {
-        maxWidth: 229,
+        flex: 1,
         minWidth: 180
     },
     lastInput: {

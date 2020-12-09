@@ -5,6 +5,7 @@ const initialState = {
     // employee: null,
     errors: null,
     success: false,
+    finally: true,
     loading: false
 };
 
