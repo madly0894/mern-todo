@@ -19,22 +19,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:id', async (req, res) => {
-    try {
-        const data = Employee.findById(req.params.id);
 
-        await data
-            .then(result => {
-                res.status(200).json(result);
-            })
-            .catch(errors => {
-                res.status(400).json({ message: "Bad Request", errors })
-            });
-
-    } catch (e) {
-        res.status(500).json({ message: "'Something wen't wrong, please try again" })
-    }
-});
 
 router.post('/add',
     validationRules,
@@ -122,21 +107,6 @@ router.put('/update/:id',
     }
 });
 
-// router.delete('/:id', async (req, res) => {
-//     try {
-//         await Employee.findByIdAndDelete(req.params.id)
-//             .then(() => {
-//                 res.status(200).json({ message: 'Employee deleted!' });
-//             })
-//             .catch(errors => {
-//                 res.status(400).json({ message: "Bad Request", errors });
-//             });
-//
-//     } catch (e) {
-//         res.status(500).json({ message: "'Something wen't wrong, please try again" })
-//     }
-// });
-
 router.delete('/:id', async (req, res) => {
     try {
         const ids = req.params.id.substring(1);
@@ -161,5 +131,37 @@ router.delete('/:id', async (req, res) => {
         res.status(500).json({ message: "'Something wen't wrong, please try again" })
     }
 });
+
+// router.get('/:id', async (req, res) => {
+//     try {
+//         const data = Employee.findById(req.params.id);
+//
+//         await data
+//             .then(result => {
+//                 res.status(200).json(result);
+//             })
+//             .catch(errors => {
+//                 res.status(400).json({ message: "Bad Request", errors })
+//             });
+//
+//     } catch (e) {
+//         res.status(500).json({ message: "'Something wen't wrong, please try again" })
+//     }
+// });
+
+// router.delete('/:id', async (req, res) => {
+//     try {
+//         await Employee.findByIdAndDelete(req.params.id)
+//             .then(() => {
+//                 res.status(200).json({ message: 'Employee deleted!' });
+//             })
+//             .catch(errors => {
+//                 res.status(400).json({ message: "Bad Request", errors });
+//             });
+//
+//     } catch (e) {
+//         res.status(500).json({ message: "'Something wen't wrong, please try again" })
+//     }
+// });
 
 module.exports = router;

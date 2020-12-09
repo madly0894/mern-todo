@@ -1,8 +1,9 @@
+* {
+  font-family: 'Work Sans', sans-serif !important;
+}
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -31,4 +32,22 @@ code {
 
 .MuiFormHelperText-contained span::before {
   content: "• ";
+}
+
+table thead tr th,
+table tbody tr td {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+}
+
+table thead tr th {
+  font-weight: 600 !important;
+  font-size: 12px !important;
+}
+
+table tbody tr td {
+  font-size: 15px !important;
+  font-weight: 500 !important;
 }

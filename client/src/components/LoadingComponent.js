@@ -7,7 +7,7 @@ import {makeStyles} from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
     backdrop: {
         zIndex: 9999,
-        backgroundColor: 'rgba(255, 255, 255, 0.6)',
+        backgroundColor: 'rgba(255, 255, 255, 0.4)',
         position: 'absolute',
         marginTop: 58
     },

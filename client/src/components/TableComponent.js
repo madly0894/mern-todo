@@ -184,7 +184,7 @@ const TableComponent = ({ rows, headCells }) => {
                                                     inputProps={{'aria-labelledby': labelId}}
                                                 />
                                             </TableCell>
-                                            <TableCell align="center">{row._id}</TableCell>
+                                            <TableCell align="center">{index + 1}</TableCell>
                                             <TableCell align="center">{`${row.firstName} ${row.lastName}`}</TableCell>
                                             <TableCell align="center">{row.role.title}</TableCell>
                                             <TableCell align="center">{row.businessLocation.title}</TableCell>
