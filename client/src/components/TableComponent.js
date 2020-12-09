@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {makeStyles, withStyles} from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -13,6 +13,7 @@ import ActionComponent from "./ActionComponent";
 import {useSelector} from "react-redux";
 import TablePagination from "@material-ui/core/TablePagination";
 import Grid from "@material-ui/core/Grid";
+import LoadingComponent from "./LoadingComponent";
 
 function EnhancedTableHead({ headCells }) {
     return (
@@ -47,7 +48,7 @@ const StyledTableRow = withStyles((theme) => ({
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        maxWidth: 1280,
+        maxWidth: 1024,
     },
     grid: {
         flexGrow: 1,
@@ -55,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
     paper: {
         width: '100%',
     },
+    tableContainer: ({ open }) => ({
+        position: open ? 'inherit' : 'relative'
+    }),
     table: {
         minWidth: 992,
         border: '1px solid rgba(224, 224, 224, 1)',
@@ -80,13 +84,14 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function TableComponent({ rows, headCells }) {
-    const classes = useStyles();
+const TableComponent = ({ rows, headCells }) => {
     const [selected, setSelected] = React.useState([]);
     const [selectedRowData, setSelectedRowData] = React.useState([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const {loading} = useSelector(({ reducers }) => reducers);
+    const {success} = useSelector(({ todo }) => todo);
+    const {open} = useSelector(({ settings }) => settings.dialog);
+    const classes = useStyles({open});
 
     const handleSelectAllClick = (event) => {
         if (event.target.checked) {
@@ -96,6 +101,10 @@ export default function TableComponent({ rows, headCells }) {
         }
         setSelected([]);
     };
+
+    useEffect(() => {
+        if (success) setSelected([]);
+    }, [success]);
 
     const handleClick = (row) => {
         const {_id} = row;
@@ -136,7 +145,7 @@ export default function TableComponent({ rows, headCells }) {
     return (
         <div className={classes.root}>
             <Paper elevation={0} className={classes.paper}>
-                <TableContainer>
+                <TableContainer className={classes.tableContainer}>
                     <Table
                         className={classes.table}
                         aria-labelledby="tableTitle"
@@ -190,6 +199,7 @@ export default function TableComponent({ rows, headCells }) {
                             )}
                         </TableBody>
                     </Table>
+                    <LoadingComponent />
                 </TableContainer>
                 <Grid container alignItems="center" className={classes.footer}>
                     <Grid item xs={12} sm={12} md={8}>
@@ -210,4 +220,6 @@ export default function TableComponent({ rows, headCells }) {
             </Paper>
         </div>
     );
-}
+};
+
+export default TableComponent;

@@ -4,10 +4,11 @@ const initialState = {
     employees: [],
     employee: null,
     errors: null,
+    success: false,
     loading: false
 };
 
-function reducers(state = initialState, action) {
+function todo(state = initialState, action) {
     const {payload} = action;
 
     switch (action.type) {
@@ -15,32 +16,40 @@ function reducers(state = initialState, action) {
             return {
                 ...state,
                 employees: payload,
+                success: true,
                 loading: false
             };
         case types.GET_EMPLOYEE_BY_ID:
             return {
                 ...state,
                 employee: payload,
+                success: true,
                 loading: false
             };
         case types.ADD_EMPLOYEE :
             return {
                 ...state,
-                employees: [...state.employees, payload]
+                employees: [...state.employees, payload],
+                success: true,
+                loading: false
             };
         case types.DELETE_EMPLOYEE :
             const employees = state.employees.filter((item) => item._id !== payload);
 
             return {
                 ...state,
-                employees
+                employees,
+                success: true,
+                loading: false
             };
         case types.DELETE_ALL_EMPLOYEES:
             const deleteAll = state.employees.filter((item) => !item);
 
             return {
                 ...state,
-                employees: deleteAll
+                employees: deleteAll,
+                success: true,
+                loading: false
             };
         case types.EDIT_EMPLOYEE:
             const edit = state.employees.map((item) => item._id === payload._id
@@ -49,12 +58,14 @@ function reducers(state = initialState, action) {
 
             return {
                 ...state,
-                employees: edit
+                employees: edit,
+                success: true,
             };
         case types.SET_LOADING:
             return {
                 ...state,
                 loading: true,
+                success: false,
                 errors: null
             };
         case types.SET_ERRORS:
@@ -63,9 +74,15 @@ function reducers(state = initialState, action) {
                 loading: false,
                 errors: payload
             };
+        case types.SET_RESET: {
+            return {
+                ...state,
+                errors: null,
+            }
+        }
         default:
             return state;
     }
 }
 
-export default reducers;
+export default todo;

@@ -52,20 +52,20 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
+const hasErrors = (key) => {
+    return key?.map((err, i) => (
+        <React.Fragment key={i}>
+            <span>{err.msg}</span>
+            <br/>
+        </React.Fragment>
+    ))
+};
+
 const FormComponent = ({form, handleChangeForm}) => {
     const classes = useStyles();
-    const {errors} = useSelector(({ reducers }) => reducers);
+    const {errors} = useSelector(({ todo }) => todo);
 
     const {businessLocations, companies, roles} = db;
-
-    const hasErrors = (key) => {
-        return key?.map((err, i) => (
-            <React.Fragment key={i}>
-                <span>{err.msg}</span>
-                <br/>
-            </React.Fragment>
-        ))
-    };
 
     return (
         <form noValidate autoComplete="off">
@@ -120,6 +120,8 @@ const FormComponent = ({form, handleChangeForm}) => {
                             id="id-login"
                             variant="outlined"
                             placeholder="Login"
+                            error={!!errors?.login}
+                            helperText={hasErrors(errors?.login)}
                             size="small"
                             name="login"
                             onChange={handleChangeForm}
@@ -140,6 +142,8 @@ const FormComponent = ({form, handleChangeForm}) => {
                             id="id-work-phone"
                             variant="outlined"
                             placeholder="Work Phone"
+                            error={!!errors?.workPhone}
+                            helperText={hasErrors(errors?.workPhone)}
                             size="small"
                             name="workPhone"
                             onChange={handleChangeForm}
@@ -174,6 +178,8 @@ const FormComponent = ({form, handleChangeForm}) => {
                             id="id-work-email"
                             variant="outlined"
                             placeholder="Work Email"
+                            error={!!errors?.workEmail}
+                            helperText={hasErrors(errors?.workEmail)}
                             size="small"
                             name="workEmail"
                             onChange={handleChangeForm}
@@ -244,7 +250,15 @@ const FormComponent = ({form, handleChangeForm}) => {
                                 handleChangeForm(value, 'company');
                             }}
                             getOptionLabel={(option) => option.title}
-                            renderInput={(params) => <TextField {...params} placeholder="Company" variant="outlined" />}
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    placeholder="Company"
+                                    variant="outlined"
+                                    error={!!errors?.company}
+                                    helperText={hasErrors(errors?.company)}
+                                />
+                            )}
                         />
                     </Grid>
                 </Grid>

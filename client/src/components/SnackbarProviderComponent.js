@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import { closeSnackbarAction } from '../store/actions/notifications';
 import {useDispatch} from "react-redux";
 
-const Provider = ({ children }) => {
+const SnackbarProviderComponent = ({ children }) => {
     const dispatch = useDispatch();
 
     return (
@@ -32,4 +32,4 @@ const Provider = ({ children }) => {
     );
 };
 
-export default React.memo(Provider);
+export default SnackbarProviderComponent;

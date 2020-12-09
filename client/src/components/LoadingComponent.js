@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 const LoadingComponent = () => {
     const classes = useStyles();
-    const {loading} = useSelector(({ reducers }) => reducers);
+    const {loading} = useSelector(({ todo }) => todo);
 
     return (
         <Backdrop className={classes.backdrop} open={loading}>

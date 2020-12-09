@@ -3,6 +3,110 @@ const Employee = require('../models/Employee');
 const {check, validationResult, checkSchema} = require('express-validator');
 const router = Router();
 
+
+const validationRules = checkSchema({
+    firstName: {
+        notEmpty: {
+            errorMessage: 'The First Name field is required'
+        },
+        isLength: {
+            options: {min: 2},
+            errorMessage: 'First Name should be at least 2 chars long'
+        }
+    },
+    lastName: {
+        notEmpty: {
+            errorMessage: 'The Last Name field is required'
+        },
+        isLength: {
+            options: {min: 2},
+            errorMessage: 'Last Name should be at least 2 chars long'
+        }
+    },
+    login: {
+        notEmpty: {
+            errorMessage: 'The Login field is required'
+        },
+        isLength: {
+            options: {min: 2},
+            errorMessage: 'Login should be at least 2 chars long'
+        }
+    },
+    workPhone: {
+        notEmpty: {
+            errorMessage: 'The Work Phone field is required'
+        },
+        isLength: {
+            options: { min: 10, max: 10 },
+            errorMessage: 'Please enter Work Phone number in 10 digits'
+        },
+        matches: {
+            options: [/^\d{10}$/],
+            errorMessage: 'Please enter digits'
+        }
+    },
+    personalPhone: {
+        notEmpty: {
+            errorMessage: 'The Personal Phone field is required'
+        },
+        isLength: {
+            options: { min: 10, max: 10 },
+            errorMessage: 'Please enter Personal Phone number in 10 digits'
+        },
+        matches: {
+            options: [/^\d{10}$/],
+            errorMessage: 'Please enter digits'
+        }
+    },
+    workEmail: {
+        notEmpty: {
+            errorMessage: 'The Work Email field is required'
+        },
+        isLength: {
+            options: { max: 25 },
+            errorMessage: 'Work Email should not be greater than 25 chars',
+        },
+        isEmail: {
+            errorMessage: 'Invalid Email address',
+        }
+    },
+    personalEmail: {
+        notEmpty: {
+            errorMessage: 'The Personal Email field is required'
+        },
+        isLength: {
+            options: { max: 25 },
+            errorMessage: 'Personal Email should not be greater than 25 chars',
+        },
+        isEmail: {
+            errorMessage: 'Invalid Email address',
+        }
+    },
+    businessLocation: {
+        notEmpty: {
+            errorMessage: 'The Business Location field is required'
+        }
+    },
+    company: {
+        notEmpty: {
+            errorMessage: 'The Company field is required'
+        }
+    },
+    role: {
+        notEmpty: {
+            errorMessage: 'The Role field is required'
+        }
+    },
+    hourlyRate: {
+        notEmpty: {
+            errorMessage: 'The Hourly Rate field is required'
+        },
+        isFloat: {
+            errorMessage: 'Hourly Rate should be double type'
+        }
+    }
+});
+
 router.get('/', async (req, res) => {
     try {
         await Employee.find()
@@ -32,82 +136,6 @@ router.get('/:id', async (req, res) => {
 
     } catch (e) {
         res.status(500).json({ message: "'Something wen't wrong, please try again" })
-    }
-});
-
-const validationRules = checkSchema({
-    firstName: {
-        notEmpty: {
-            errorMessage: 'The First Name field is required'
-        },
-        isLength: {
-            options: {min: 2},
-            errorMessage: 'First Name should be at least 2 chars long'
-        }
-    },
-    lastName: {
-        notEmpty: {
-            errorMessage: 'The Last Name field is required'
-        },
-        isLength: {
-            options: {min: 2},
-            errorMessage: 'Last Name should be at least 2 chars long'
-        }
-    },
-    // workPhone: {
-    //     custom: {
-    //         options: (value) => {
-    //             if (value.length > 0) {
-    //                 return Promise.reject();
-    //             } else {
-    //                 return Promise.resolve();
-    //             }
-    //         },
-    //         errorMessage: 'Please enter Work Phone number in 10 digits'
-    //     }
-    // },
-    personalPhone: {
-        notEmpty: {
-            errorMessage: 'The Personal Phone field is required'
-        },
-        isLength: {
-            options: { min: 10, max: 10 },
-            errorMessage: 'Please enter Personal Phone number in 10 digits'
-        },
-        matches: {
-            options: [/^\d{10}$/],
-            errorMessage: 'Please enter digits'
-        }
-    },
-    // workEmail: {
-    //     isLength: {
-    //         options: { max: 25 },
-    //         errorMessage: 'Work Email should not be greater than 25 chars',
-    //     },
-    // },
-    personalEmail: {
-        notEmpty: {
-            errorMessage: 'The Personal Email field is required'
-        },
-        isLength: {
-            options: { max: 25 },
-            errorMessage: 'Personal Email should not be greater than 25 chars',
-        }
-    },
-    businessLocation: {
-        notEmpty: {
-            errorMessage: 'The Business Location field is required'
-        }
-    },
-    role: {
-        notEmpty: {
-            errorMessage: 'The Role field is required'
-        }
-    },
-    hourlyRate: {
-        notEmpty: {
-            errorMessage: 'The Hourly Rate field is required'
-        }
     }
 });
 

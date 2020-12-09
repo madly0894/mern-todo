@@ -21,6 +21,15 @@ export default function settings(state = initialState, action) {
                     selectedRowIds: action.payload.selectedRowIds
                 }
             };
+        case types.CLOSE_DIALOG: {
+            return {
+                ...state,
+                dialog: {
+                    ...state.dialog,
+                    open: false
+                }
+            }
+        }
         default:
             return state;
     }

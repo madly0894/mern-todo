@@ -1,10 +1,10 @@
 import {combineReducers} from "redux";
-import reducers from "./reducers";
+import todo from "./todo";
 import settings from "./settings";
 import notifications from "./notifications";
 
 const rootReducer = combineReducers({
-    reducers,
+    todo,
     settings,
     notifications
 });

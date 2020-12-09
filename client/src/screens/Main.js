@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import TableComponent from "../components/TableComponent";
-import {getAllEmployees} from "../store/actions/actions";
+import {getAllEmployees} from "../store/actions/todo";
 import {useDispatch, useSelector} from "react-redux";
 import DialogComponent from "../components/DialogComponent";
 import NotificationComponent from "../components/NotificationComponent";
 
 const Main = () => {
     const dispatch = useDispatch();
-    const employees = useSelector(({ reducers }) => reducers.employees);
+    const employees = useSelector(({ todo }) => todo.employees);
 
     useEffect(() => {
         dispatch(getAllEmployees())

@@ -1,6 +1,7 @@
 import * as types from "../types";
 import instance from '../../api/axios';
 import {convertArrayToObject} from "../../utils/helpers";
+import {closeDialog} from "./settings";
 
 function error() {
     return new Error('Error from server');
@@ -38,6 +39,7 @@ export const addEmployee = (form) => async (dispatch) => {
         await instance.post('/add', form)
             .then(res => {
                 dispatch(action_createEmployee(res.data.data));
+                dispatch(closeDialog());
             })
             .catch(err => {
                 dispatch(action_setErrors(convertArrayToObject(err.data.errors, 'param')));
@@ -62,6 +64,7 @@ export const updateEmployee = (form) => async (dispatch) => {
         await instance.put(`/update/${form._id}`, form)
             .then(res => {
                 dispatch(action_updateEmployee(res.data.data));
+                dispatch(closeDialog());
             })
             .catch(err => {
                 dispatch(action_setErrors(convertArrayToObject(err.data.errors, 'param')));
@@ -86,6 +89,7 @@ export const deleteEmployee = (id) => async (dispatch) => {
         await instance.delete(`/${id}`)
             .then(() => {
                 dispatch(action_deleteEmployee(id));
+                dispatch(closeDialog());
             })
             .catch(err => {
                 dispatch(action_setErrors(convertArrayToObject(err.data.errors, 'param')));
@@ -109,6 +113,7 @@ export const getEmployeeById = (id) => async (dispatch) => {
         await instance.get(`/${id}`)
             .then(res => {
                 dispatch(action_employeeById(res.data));
+                dispatch(closeDialog());
             })
             .catch(err => {
                 dispatch(action_setErrors(convertArrayToObject(err.data.errors, 'param')));
@@ -132,6 +137,7 @@ export const deleteAllEmployees = () => async (dispatch) => {
         await instance.delete(`/all`)
             .then(() => {
                 dispatch(action_deleteAllEmployees());
+                dispatch(closeDialog());
             })
             .catch(err => {
                 dispatch(action_setErrors(convertArrayToObject(err.data.errors, 'param')));
@@ -156,4 +162,10 @@ export const action_setLoading = () => ({
 export const action_setErrors = (errors) => ({
     type: types.SET_ERRORS,
     payload: errors
+});
+
+// Reset Errors
+
+export const action_reset = () => ({
+    type: types.SET_RESET
 });
