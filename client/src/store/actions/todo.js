@@ -133,24 +133,24 @@ export const action_employeeById = (data) => ({
 export const deleteAllEmployees = (id) => async (dispatch) => {
     dispatch(action_setLoading());
 
-    const ids = id.toString()
-
     try {
-        await instance.delete(`/all/:${ids}`)
+        await instance.delete(`/all/:${id}`)
             .then(() => {
-                dispatch(action_deleteAllEmployees());
+                dispatch(action_deleteAllEmployees(id));
                 dispatch(closeDialog());
             })
             .catch(err => {
                 dispatch(action_setErrors(convertArrayToObject(err.data.errors, 'param')));
             });
+        dispatch(action_deleteAllEmployees(id));
     } catch (e) {
         error()
     }
 };
 
-export const action_deleteAllEmployees = () => ({
-    type: types.DELETE_ALL_EMPLOYEES
+export const action_deleteAllEmployees = (ids) => ({
+    type: types.DELETE_ALL_EMPLOYEES,
+    payload: ids
 });
 
 // Set Loading

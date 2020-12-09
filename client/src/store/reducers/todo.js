@@ -43,7 +43,7 @@ function todo(state = initialState, action) {
                 loading: false
             };
         case types.DELETE_ALL_EMPLOYEES:
-            const deleteAll = state.employees.filter((item) => !item);
+            const deleteAll = state.employees.filter((item, i) => payload.indexOf(item._id) === -1);
 
             return {
                 ...state,

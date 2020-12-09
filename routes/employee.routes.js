@@ -244,26 +244,21 @@ router.delete('/:id', async (req, res) => {
 router.delete('/all/:id', async (req, res) => {
     try {
         const ids = req.params.id.substring(1);
-        const one = ids.split(',')[0];
-        const two = ids.split(',')[1];
-        const b = [one, two]
 
-        const id = {
-            _id: {$in: [b]}
-        };
+        let arr = [];
+        if (ids) {
+            const id = [ids].map(i => i.split(','));
+            arr = id[0];
+        }
 
-        await Employee.find(id)
+        await Employee.deleteMany({
+            _id: {$in: arr}
+        })
             .then(() => {
-                Employee.deleteMany(id)
-                    .then(() => {
-                        res.status(200).json({ message: 'All employees deleted!' });
-                    })
-                    .catch(() => {
-                        console.log(2)
-                    })
+                res.status(200).json({ message: 'All employees deleted!' });
             })
-            .catch(() => {
-
+            .catch(errors => {
+                res.status(400).json({ message: "Bad Request", errors });
             })
 
     } catch (e) {
