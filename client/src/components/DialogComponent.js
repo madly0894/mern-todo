@@ -107,7 +107,7 @@ const DialogComponent = (props) => {
     return (
         <Dialog
             fullWidth
-            maxWidth="sm"
+            maxWidth="md"
             open={open}
             onClose={handleDisagreeDialog}
             aria-labelledby="alert-dialog-title"

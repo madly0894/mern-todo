@@ -1,6 +1,6 @@
 const {Router} = require('express');
 const Employee = require('../models/Employee');
-const {check, validationResult} = require('express-validator');
+const {check, validationResult, checkSchema} = require('express-validator');
 const router = Router();
 
 router.get('/', async (req, res) => {
@@ -35,18 +35,84 @@ router.get('/:id', async (req, res) => {
     }
 });
 
+const validationRules = checkSchema({
+    firstName: {
+        notEmpty: {
+            errorMessage: 'The First Name field is required'
+        },
+        isLength: {
+            options: {min: 2},
+            errorMessage: 'First Name should be at least 2 chars long'
+        }
+    },
+    lastName: {
+        notEmpty: {
+            errorMessage: 'The Last Name field is required'
+        },
+        isLength: {
+            options: {min: 2},
+            errorMessage: 'Last Name should be at least 2 chars long'
+        }
+    },
+    // workPhone: {
+    //     custom: {
+    //         options: (value) => {
+    //             if (value.length > 0) {
+    //                 return Promise.reject();
+    //             } else {
+    //                 return Promise.resolve();
+    //             }
+    //         },
+    //         errorMessage: 'Please enter Work Phone number in 10 digits'
+    //     }
+    // },
+    personalPhone: {
+        notEmpty: {
+            errorMessage: 'The Personal Phone field is required'
+        },
+        isLength: {
+            options: { min: 10, max: 10 },
+            errorMessage: 'Please enter Personal Phone number in 10 digits'
+        },
+        matches: {
+            options: [/^\d{10}$/],
+            errorMessage: 'Please enter digits'
+        }
+    },
+    // workEmail: {
+    //     isLength: {
+    //         options: { max: 25 },
+    //         errorMessage: 'Work Email should not be greater than 25 chars',
+    //     },
+    // },
+    personalEmail: {
+        notEmpty: {
+            errorMessage: 'The Personal Email field is required'
+        },
+        isLength: {
+            options: { max: 25 },
+            errorMessage: 'Personal Email should not be greater than 25 chars',
+        }
+    },
+    businessLocation: {
+        notEmpty: {
+            errorMessage: 'The Business Location field is required'
+        }
+    },
+    role: {
+        notEmpty: {
+            errorMessage: 'The Role field is required'
+        }
+    },
+    hourlyRate: {
+        notEmpty: {
+            errorMessage: 'The Hourly Rate field is required'
+        }
+    }
+});
+
 router.post('/add',
-    [
-        // check('firstName', '').isLength({ min: 2 }),
-        // check('lastName', '').isLength({ min: 2 }),
-        // check('workEmail', 'Incorrect email').isEmail(),
-        // check('personalEmail', 'Incorrect email').isEmail(),
-        // check('firstName', '').isLength({ min: 2 }),
-        // check('firstName', '').isLength({ min: 2 }),
-        // check('firstName', '').isLength({ min: 2 }),
-        // check('firstName', '').isLength({ min: 2 }),
-        // check('firstName', '').isLength({ min: 2 }),
-    ],
+    validationRules,
     async (req, res) => {
         try {
             const errors = validationResult(req);
@@ -62,8 +128,28 @@ router.post('/add',
                 .then(result => {
                     res.status(201).json({ message: 'Employee created!', data: result })
                 })
-                .catch(errors => {
-                    res.status(400).json({ message: "Bad Request", errors })
+                .catch(err => {
+                    if (err) {
+                        if (err.name === 'MongoError' && err.code === 11000) {
+                            let errors = [];
+                            const key = Object.keys(err.keyValue)[0];
+                            const name = key.replace(/([A-Z])/g, ' $1')
+                                .replace(/^./, (str) => str.toUpperCase());
+
+                            const message = `${name} already exists`;
+                            const obj = {
+                                location: 'body',
+                                msg: message,
+                                param: key,
+                                value: req.body[key]
+                            };
+                            errors.push(obj);
+
+                            return res.status(400).json({ message: "Bad Request", errors })
+                        }
+                    }
+
+                    res.status(400).json({ message: "Bad Request", errors: err })
                 });
 
         } catch (e) {
@@ -72,7 +158,7 @@ router.post('/add',
 });
 
 router.put('/update/:id',
-    [], async (req, res) => {
+    validationRules, async (req, res) => {
     try {
         const errors = validationResult(req);
 

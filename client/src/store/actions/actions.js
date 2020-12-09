@@ -1,5 +1,6 @@
 import * as types from "../types";
 import instance from '../../api/axios';
+import {convertArrayToObject} from "../../utils/helpers";
 
 function error() {
     return new Error('Error from server');
@@ -16,7 +17,7 @@ export const getAllEmployees = () => async (dispatch) => {
                 dispatch(action_allEmployees(res.data));
             })
             .catch(err => {
-                dispatch(action_setErrors(err.data.errors.errors));
+                dispatch(action_setErrors(convertArrayToObject(err.data.errors, 'param')));
             });
     } catch (e) {
         error()
@@ -39,7 +40,7 @@ export const addEmployee = (form) => async (dispatch) => {
                 dispatch(action_createEmployee(res.data.data));
             })
             .catch(err => {
-                dispatch(action_setErrors(err.data.errors.errors));
+                dispatch(action_setErrors(convertArrayToObject(err.data.errors, 'param')));
             });
 
     } catch (e) {
@@ -63,7 +64,7 @@ export const updateEmployee = (form) => async (dispatch) => {
                 dispatch(action_updateEmployee(res.data.data));
             })
             .catch(err => {
-                dispatch(action_setErrors(err.data.errors.errors));
+                dispatch(action_setErrors(convertArrayToObject(err.data.errors, 'param')));
             });
 
     } catch (e) {
@@ -87,7 +88,7 @@ export const deleteEmployee = (id) => async (dispatch) => {
                 dispatch(action_deleteEmployee(id));
             })
             .catch(err => {
-                dispatch(action_setErrors(err.data.errors.errors));
+                dispatch(action_setErrors(convertArrayToObject(err.data.errors, 'param')));
             });
     } catch (e) {
         error()
@@ -110,7 +111,7 @@ export const getEmployeeById = (id) => async (dispatch) => {
                 dispatch(action_employeeById(res.data));
             })
             .catch(err => {
-                dispatch(action_setErrors(err.data.errors.errors));
+                dispatch(action_setErrors(convertArrayToObject(err.data.errors, 'param')));
             });
     } catch (e) {
         error()
@@ -133,7 +134,7 @@ export const deleteAllEmployees = () => async (dispatch) => {
                 dispatch(action_deleteAllEmployees());
             })
             .catch(err => {
-                dispatch(action_setErrors(err.data.errors.errors));
+                dispatch(action_setErrors(convertArrayToObject(err.data.errors, 'param')));
             });
     } catch (e) {
         error()

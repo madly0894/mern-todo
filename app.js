@@ -27,15 +27,6 @@ async function start() {
             useNewUrlParser: true,
             useUnifiedTopology: true,
             useCreateIndex: true
-        }, (err, db) => {
-            // console.log(db.getCollectionNames())
-            // if (err) throw new Error(err);
-            // db.collection('employees').deleteMany(// MongoDB delete method 'deleteMany'
-            //     { farewell: "okay" }, // Delete ALL documents with the property 'farewell: okay'
-            //     function (err, result) {
-            //         if (err) throw new Error(err);
-            //         db.close(); // Don't forget to close the connection when you are done
-            //     });
         });
         app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
     } catch (e) {

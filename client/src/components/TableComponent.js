@@ -177,8 +177,8 @@ export default function TableComponent({ rows, headCells }) {
                                             <TableCell align="center">{`${row.firstName} ${row.lastName}`}</TableCell>
                                             <TableCell align="center">{row.role.title}</TableCell>
                                             <TableCell align="center">{row.businessLocation.title}</TableCell>
-                                            <TableCell align="center">{row.workEmail}</TableCell>
-                                            <TableCell align="center">{row.workPhone}</TableCell>
+                                            <TableCell align="center">{row.personalEmail}</TableCell>
+                                            <TableCell align="center">{row.personalPhone}</TableCell>
                                             <TableCell align="center">{row.hourlyRate} / h</TableCell>
                                         </StyledTableRow>
                                     );

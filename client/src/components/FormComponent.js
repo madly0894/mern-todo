@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
         margin: theme.spacing(1, 0),
     },
     item: {
-        margin: theme.spacing(1, 0),
+        margin: theme.spacing(1, 20),
         [theme.breakpoints.down('sm')]: {
             flexDirection: 'column',
             margin: theme.spacing(0),

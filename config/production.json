@@ -1,5 +1,0 @@
-{
-  "port": 5000,
-  "mongoUri": "mongodb+srv://vugar:1234vuqar@cluster0.66fz9.mongodb.net/todo?retryWrites=true&w=majority",
-  "baseUrl": "http://localhost:5000"
-}
