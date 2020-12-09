@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     },
     typography: {
         textTransform: 'capitalize',
-        fontWeight: 900,
+        fontWeight: 600,
         fontSize: theme.spacing(3)
     },
     wrapper: {

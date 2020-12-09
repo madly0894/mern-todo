@@ -12,7 +12,12 @@ import NumberFormat from 'react-number-format';
 const useStyles = makeStyles(theme => ({
     typography: {
         textTransform: 'uppercase',
-        fontWeight: 900
+        fontWeight: 700,
+        color: 'rgba(0, 0, 0, .5)'
+    },
+    fieldLabel: {
+        color: 'rgba(0, 0, 0, .5)',
+        fontWeight: 500
     },
     divider: {
         margin: theme.spacing(1, 0),
@@ -77,7 +82,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
-                        <Typography>First Name:</Typography>
+                        <Typography className={classes.fieldLabel}>First Name:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
                         <TextField
@@ -96,7 +101,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
-                        <Typography>Last Name:</Typography>
+                        <Typography className={classes.fieldLabel}>Last Name:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
                         <TextField
@@ -114,7 +119,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
-                        <Typography>Login:</Typography>
+                        <Typography className={classes.fieldLabel}>Login:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
                         <TextField
@@ -136,7 +141,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                 </Grid>
                 <Grid container justify="center" item className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
-                        <Typography>Work Phone:</Typography>
+                        <Typography className={classes.fieldLabel}>Work Phone:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
                         <NumberFormat
@@ -156,7 +161,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
-                        <Typography>Personal Phone:</Typography>
+                        <Typography className={classes.fieldLabel}>Personal Phone:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
                         <NumberFormat
@@ -176,7 +181,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
-                        <Typography>Work Email:</Typography>
+                        <Typography className={classes.fieldLabel}>Work Email:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
                         <TextField
@@ -195,7 +200,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
-                        <Typography>Personal Email:</Typography>
+                        <Typography className={classes.fieldLabel}>Personal Email:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
                         <TextField
@@ -218,7 +223,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
-                        <Typography>Business Location:</Typography>
+                        <Typography className={classes.fieldLabel}>Business Location:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
                         <Autocomplete
@@ -245,7 +250,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
-                        <Typography>Company:</Typography>
+                        <Typography className={classes.fieldLabel}>Company:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
                         <Autocomplete
@@ -273,7 +278,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
-                        <Typography>Role:</Typography>
+                        <Typography className={classes.fieldLabel}>Role:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
                         <Autocomplete
@@ -301,7 +306,7 @@ const FormComponent = ({form, handleChangeForm}) => {
                 </Grid>
                 <Grid container item justify="center" className={classes.item}>
                     <Grid item xs sm={5} className={classes.title}>
-                        <Typography>Hourly Rate:</Typography>
+                        <Typography className={classes.fieldLabel}>Hourly Rate:</Typography>
                     </Grid>
                     <Grid item xs sm={5}>
                         <NumberFormat
