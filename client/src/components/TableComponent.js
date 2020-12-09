@@ -209,7 +209,7 @@ const TableComponent = ({ rows, headCells }) => {
                     </Grid>
                     <Grid item xs={12} sm={5}>
                         <TablePagination
-                            rowsPerPageOptions={[5, 10, 25]}
+                            rowsPerPageOptions={[5, 8, 10, 12]}
                             component="div"
                             count={rows.length}
                             rowsPerPage={rowsPerPage}

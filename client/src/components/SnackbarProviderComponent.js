@@ -26,7 +26,7 @@ const SnackbarProviderComponent = ({ children }) => {
                 vertical: 'top',
                 horizontal: 'right'
             }}
-            autoHideDuration={2000}
+            autoHideDuration={3000}
         >
             {children}
         </SnackbarProvider>
