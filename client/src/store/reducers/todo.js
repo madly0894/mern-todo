@@ -8,7 +8,7 @@ const initialState = {
     loading: false
 };
 
-function todo(state = initialState, action) {
+export default function todo(state = initialState, action) {
     const {payload} = action;
 
     switch (action.type) {
@@ -85,5 +85,3 @@ function todo(state = initialState, action) {
             return state;
     }
 }
-
-export default todo;
